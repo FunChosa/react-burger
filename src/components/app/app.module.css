@@ -1,0 +1,5 @@
+.app__container {
+    display: flex;
+    justify-content: center;
+    height: 912px;
+  }
