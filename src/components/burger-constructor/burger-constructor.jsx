@@ -6,25 +6,31 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./burger-constructor.module.css";
 import cn from "classnames";
-import BurgerIngredients from "../burger-ingredients/burger-ingredients";
+import { ingredientType } from "../../utils/prop-types";
 import PropTypes from "prop-types";
-
+import { useMemo } from "react";
 const BurgerConstructor = ({ data }) => {
+  const { bun, ingredients } = useMemo(() => {
+    return {
+      bun: data.find((item) => item.type === "bun"),
+      ingredients: data.filter((item) => item.type !== "bun"),
+    };
+  }, [data]);
+
   return (
-    <div className={cn(style.body__container, "mt-25")}> { /* главный контейнер со всем содержимым */ }
-      <section className={cn(style.outside__item, "mb-4")}> { /* верхняя бувочка */ }
+    <div className={cn(style.body__container, "mt-25")}>
+      <section className={cn(style.outside__item, "mb-4")}>
         <ConstructorElement
           type="top"
           isLocked={true}
-          text={data[0].name + " (верх)"}
-          price={data[0].price}
-          thumbnail={data[0].image}
+          text={bun.name + " (верх)"}
+          price={bun.price}
+          thumbnail={bun.image}
         />
       </section>
-
-      <ul className={style.list__of__items}> { /* список внутренних ингридиентов + скролл */ }
-        {data.map((item) => (
-          <li className={cn(style.inside__item, "mb-4")}> { /* отдельный ингридиент */ }
+      <ul className={style.list__of__items}>
+        {ingredients.map((item) => (
+          <li className={cn(style.inside__item, "mb-4")} key={item._id}>
             <DragIcon type="primary" />
             <ConstructorElement
               text={item.name}
@@ -34,25 +40,23 @@ const BurgerConstructor = ({ data }) => {
           </li>
         ))}
       </ul>
-
-      <section className={cn(style.outside__item, "mb-10")}> { /* нижняя бувочка */ }
+      <section className={cn(style.outside__item, "mb-10")}>
         <ConstructorElement
           type="bottom"
           isLocked={true}
-          text={data[0].name + " (низ)"}
-          price={data[0].price}
-          thumbnail={data[0].image}
+          text={bun.name + " (низ)"}
+          price={bun.price}
+          thumbnail={bun.image}
         />
       </section>
-
-      <section className={style.info}> { /* нижнее меню с итоговой суммой и кнопкой */ }
-        <div className={cn(style.price, "pr-10")}> { /* сумма */ }
+      <section className={style.info}>
+        <div className={cn(style.price, "pr-10")}>
           <span className={cn("text text_type_digits-medium", "pr-2")}>
             610
           </span>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="large"> { /* кнопка */ }
+        <Button type="primary" size="large" htmlType="button">
           Оформить заказ
         </Button>
       </section>
@@ -60,13 +64,8 @@ const BurgerConstructor = ({ data }) => {
   );
 };
 
-BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-  })),
-}
+BurgerConstructor.propTypes = {
+  data: PropTypes.arrayOf(ingredientType.isRequired).isRequired,
+};
 
 export default BurgerConstructor;
-
