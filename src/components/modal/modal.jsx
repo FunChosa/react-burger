@@ -8,11 +8,7 @@ import ModalOverlay from "../modal-overlay/modal-overlay";
 
 const Modal = (props) => {
   const closeModal = () => {
-    props.setModal({
-      isActive: false,
-      content: null,
-      title: null,
-    });
+    props.handleClose(false);
   };
 
   const close = (event) => {
@@ -49,10 +45,9 @@ const Modal = (props) => {
 };
 
 Modal.propTypes = {
-  props: PropTypes.object,
+  handleClose: PropTypes.func.isRequired,
   title: PropTypes.string,
   children: PropTypes.element,
-  setModal: PropTypes.func,
 };
 
 export default Modal;

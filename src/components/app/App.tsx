@@ -2,26 +2,34 @@ import AppHeader from "../app-header/app-header";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients.jsx";
 import style from "./app.module.css";
-import { URL_DATA } from "../../utils/data";
+import { NORMA_API } from "../../utils/data";
 import { useEffect, useState } from "react";
+import OrderDetails from "../order-details/order-details";
+import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
 function App() {
   const [data, setData] = useState([]);
   const [success, setSuccess] = useState(false);
-  const [modal, setModal] = useState({
-    isActive: false,
-    title: null,
-    content: null,
-  });
+
+  const [isIngredientDetailsModalOpen, setIsIngredientDetailsModalOpen] =
+    useState({
+      isActive: false,
+      ingredient: {},
+    });
+
+  const [isOrderDetailsModalOpen, setIsOrderDetailsModalOpen] = useState(false);
+  const checkResponse = (res: { ok: any; json: () => Promise<any> }) => {
+    return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
+  };
+
   const getData = async () => {
     try {
-      const response = await fetch(URL_DATA);
-      if (!response.ok) {
-        throw new Error("Error fetching data");
-      }
-      const data = await response.json();
-      setData(data.data);
-      setSuccess(data.success);
+      fetch(NORMA_API)
+        .then(checkResponse)
+        .then((data) => {
+          setData(data.data);
+          setSuccess(data.success);
+        });
     } catch (error) {
       console.error(error);
       setSuccess(false);
@@ -30,6 +38,7 @@ function App() {
 
   useEffect(() => {
     getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (success) {
@@ -37,13 +46,30 @@ function App() {
       <>
         <AppHeader />
         <div className={style.app__container} id="root">
-          <BurgerIngredients data={data} setModal={setModal} />
-          <BurgerConstructor data={data} setModal={setModal} />
+          <BurgerIngredients
+            data={data}
+            setIsIngredientDetailsModalOpen={setIsIngredientDetailsModalOpen}
+          />
+          <BurgerConstructor
+            data={data}
+            setIsOrderDetailsModalOpen={setIsOrderDetailsModalOpen}
+          />
         </div>
 
-        {modal.isActive && (
-          <Modal {...modal} setModal={setModal}>
-            {modal.content}
+        {isIngredientDetailsModalOpen.isActive && (
+          <Modal
+            handleClose={setIsIngredientDetailsModalOpen}
+            title="Детали ингредиента"
+          >
+            <IngredientDetails
+              ingredient={isIngredientDetailsModalOpen.ingredient}
+            />
+          </Modal>
+        )}
+
+        {isOrderDetailsModalOpen && (
+          <Modal handleClose={setIsOrderDetailsModalOpen}>
+            <OrderDetails id={"123456"} />
           </Modal>
         )}
       </>

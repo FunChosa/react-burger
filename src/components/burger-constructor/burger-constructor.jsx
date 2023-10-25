@@ -9,9 +9,8 @@ import cn from "classnames";
 import { ingredientType } from "../../utils/prop-types";
 import PropTypes from "prop-types";
 import { useMemo } from "react";
-import OrderDetails from "../order-details/order-details";
-import { order_details } from "../../utils/data";
-const BurgerConstructor = ({ data, setModal }) => {
+
+const BurgerConstructor = ({ data, setIsOrderDetailsModalOpen }) => {
   const { bun, ingredients } = useMemo(() => {
     return {
       bun: data.find((item) => item.type === "bun"),
@@ -20,10 +19,7 @@ const BurgerConstructor = ({ data, setModal }) => {
   }, [data]);
 
   const openModal = () => {
-    setModal({
-      isActive: true,
-      content: <OrderDetails orderDetailsData={order_details} />,
-    });
+    setIsOrderDetailsModalOpen(true);
   };
 
   return (
@@ -80,7 +76,7 @@ const BurgerConstructor = ({ data, setModal }) => {
 
 BurgerConstructor.propTypes = {
   data: PropTypes.arrayOf(ingredientType.isRequired).isRequired,
-  setModal: PropTypes.func.isRequired,
+  setIsOrderDetailsModalOpen: PropTypes.func.isRequired,
 };
 
 export default BurgerConstructor;

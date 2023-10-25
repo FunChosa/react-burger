@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import IngredientsCategory from "./ingredients-category";
 import { useMemo } from "react";
 
-function BurgerIngredients({ data, setModal }) {
+function BurgerIngredients({ data, setIsIngredientDetailsModalOpen }) {
   const [current, setCurrent] = React.useState("one"); /* табы */
 
   const itemsByType = useMemo(() => {
@@ -37,17 +37,17 @@ function BurgerIngredients({ data, setModal }) {
         <IngredientsCategory
           text="Булки"
           itemsByType={itemsByType.bun}
-          setModal={setModal}
+          setIsIngredientDetailsModalOpen={setIsIngredientDetailsModalOpen}
         />
         <IngredientsCategory
           text="Соусы"
           itemsByType={itemsByType.sauce}
-          setModal={setModal}
+          setIsIngredientDetailsModalOpen={setIsIngredientDetailsModalOpen}
         />
         <IngredientsCategory
           text="Начинка"
           itemsByType={itemsByType.main}
-          setModal={setModal}
+          setIsIngredientDetailsModalOpen={setIsIngredientDetailsModalOpen}
         />
       </section>
     </div>
@@ -56,6 +56,6 @@ function BurgerIngredients({ data, setModal }) {
 
 BurgerIngredients.propTypes = {
   data: PropTypes.arrayOf(ingredientType.isRequired).isRequired,
-  setModal: PropTypes.func.isRequired,
+  setIsIngredientDetailsModalOpen: PropTypes.func.isRequired,
 };
 export default BurgerIngredients;

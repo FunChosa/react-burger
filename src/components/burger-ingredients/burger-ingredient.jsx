@@ -5,14 +5,13 @@ import {
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-import IngredientDetails from "../ingredient-details/ingredient-details";
+// import IngredientDetails from "../ingredient-details/ingredient-details";
 import { ingredientType } from "../../utils/prop-types";
-function BurgerIngredient({ item, setModal }) {
+function BurgerIngredient({ item, setIsIngredientDetailsModalOpen }) {
   const openModal = () => {
-    setModal({
+    setIsIngredientDetailsModalOpen({
       isActive: true,
-      title: "Детали ингредиента",
-      content: <IngredientDetails ingredient={item} />,
+      ingredient: item,
     });
   };
 
@@ -48,7 +47,7 @@ function BurgerIngredient({ item, setModal }) {
 
 BurgerIngredient.propTypes = {
   item: ingredientType.isRequired,
-  setModal: PropTypes.func.isRequired,
+  setIsIngredientDetailsModalOpen: PropTypes.func.isRequired,
 };
 
 export default BurgerIngredient;

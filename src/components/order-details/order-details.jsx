@@ -1,9 +1,9 @@
 import style from "./order-details.module.css";
 import cn from "classnames";
 import done from "../../images/done.svg";
-import { orderDetailsType } from "../../utils/prop-types";
+import PropTypes from "prop-types";
 
-function OrderDetails({ orderDetailsData }) {
+const OrderDetails = ({ id }) => {
   return (
     <div className={cn(style.order__details__container, "mt-10")}>
       <h2
@@ -14,10 +14,10 @@ function OrderDetails({ orderDetailsData }) {
           "mb-2"
         )}
       >
-        {orderDetailsData.id}
+        {id}
       </h2>
       <p className={cn("text", "text_type_main-medium", "mb-15")}>
-        {orderDetailsData.title}
+        идентификатор заказа
       </p>
       <img
         className={cn(style.order__details__image, "mb-15")}
@@ -25,7 +25,7 @@ function OrderDetails({ orderDetailsData }) {
         alt="done"
       />
       <p className={cn("text", "text_type_main-default", "mb-2")}>
-        {orderDetailsData.dscr}
+        Ваш заказ начали готовить
       </p>
       <p
         className={cn(
@@ -35,14 +35,14 @@ function OrderDetails({ orderDetailsData }) {
           "mb-30"
         )}
       >
-        {orderDetailsData.dscr2}
+        Дождитесь готовности на орбитальной станции
       </p>
     </div>
   );
-}
+};
 
 OrderDetails.propTypes = {
-  orderDetailsData: orderDetailsType.isRequired,
+  id: PropTypes.string.isRequired,
 };
 
 export default OrderDetails;
