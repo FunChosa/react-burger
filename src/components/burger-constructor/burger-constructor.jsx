@@ -9,13 +9,22 @@ import cn from "classnames";
 import { ingredientType } from "../../utils/prop-types";
 import PropTypes from "prop-types";
 import { useMemo } from "react";
-const BurgerConstructor = ({ data }) => {
+import OrderDetails from "../order-details/order-details";
+import { order_details } from "../../utils/data";
+const BurgerConstructor = ({ data, setModal }) => {
   const { bun, ingredients } = useMemo(() => {
     return {
       bun: data.find((item) => item.type === "bun"),
       ingredients: data.filter((item) => item.type !== "bun"),
     };
   }, [data]);
+
+  const openModal = () => {
+    setModal({
+      isActive: true,
+      content: <OrderDetails orderDetailsData={order_details} />,
+    });
+  };
 
   return (
     <div className={cn(style.body__container, "mt-25")}>
@@ -56,7 +65,12 @@ const BurgerConstructor = ({ data }) => {
           </span>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="large" htmlType="button">
+        <Button
+          type="primary"
+          size="large"
+          htmlType="button"
+          onClick={openModal}
+        >
           Оформить заказ
         </Button>
       </section>
@@ -66,6 +80,7 @@ const BurgerConstructor = ({ data }) => {
 
 BurgerConstructor.propTypes = {
   data: PropTypes.arrayOf(ingredientType.isRequired).isRequired,
+  setModal: PropTypes.func.isRequired,
 };
 
 export default BurgerConstructor;

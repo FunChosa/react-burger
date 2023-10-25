@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import IngredientsCategory from "./ingredients-category";
 import { useMemo } from "react";
 
-function BurgerIngredients({ data }) {
+function BurgerIngredients({ data, setModal }) {
   const [current, setCurrent] = React.useState("one"); /* табы */
 
   const itemsByType = useMemo(() => {
@@ -34,9 +34,21 @@ function BurgerIngredients({ data }) {
         </Tab>
       </section>
       <section className={cn(style.boxes__container__scroll, "pt-2, pr-6")}>
-        <IngredientsCategory text="Булки" itemsByType={itemsByType.bun} />
-        <IngredientsCategory text="Соусы" itemsByType={itemsByType.sauce} />
-        <IngredientsCategory text="Начинка" itemsByType={itemsByType.main} />
+        <IngredientsCategory
+          text="Булки"
+          itemsByType={itemsByType.bun}
+          setModal={setModal}
+        />
+        <IngredientsCategory
+          text="Соусы"
+          itemsByType={itemsByType.sauce}
+          setModal={setModal}
+        />
+        <IngredientsCategory
+          text="Начинка"
+          itemsByType={itemsByType.main}
+          setModal={setModal}
+        />
       </section>
     </div>
   );
@@ -44,5 +56,6 @@ function BurgerIngredients({ data }) {
 
 BurgerIngredients.propTypes = {
   data: PropTypes.arrayOf(ingredientType.isRequired).isRequired,
+  setModal: PropTypes.func.isRequired,
 };
 export default BurgerIngredients;
