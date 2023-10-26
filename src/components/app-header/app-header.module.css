@@ -1,0 +1,29 @@
+.header__container {
+  display: flex;
+  justify-content: center;
+  /* min-width: 1920px; */
+  height: 88px;
+}
+.navigation_container__main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 1280px;
+  /* min-height: 56px; */
+}
+.navigation_container__left {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* width: 383px;
+    height: 56px; */
+}
+.navigation__item {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  /* width: 197px;
+    height: 56px; */
+}
