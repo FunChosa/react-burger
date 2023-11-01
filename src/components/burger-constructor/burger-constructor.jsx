@@ -6,11 +6,13 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./burger-constructor.module.css";
 import cn from "classnames";
-import { ingredientType } from "../../utils/prop-types";
+import { sentOrder } from "../../utils/burger-api";
 import PropTypes from "prop-types";
-import { useMemo } from "react";
+import { useContext, useMemo } from "react";
+import { BurgerContext } from "../../services/burgerContext";
 
-const BurgerConstructor = ({ data, setIsOrderDetailsModalOpen }) => {
+const BurgerConstructor = ({ setIsOrderDetailsModalOpen }) => {
+  const data = useContext(BurgerContext);
   const { bun, ingredients } = useMemo(() => {
     return {
       bun: data.find((item) => item.type === "bun"),
@@ -18,8 +20,31 @@ const BurgerConstructor = ({ data, setIsOrderDetailsModalOpen }) => {
     };
   }, [data]);
 
-  const openModal = () => {
-    setIsOrderDetailsModalOpen(true);
+  const openModal = (number) => {
+    setIsOrderDetailsModalOpen({
+      isActive: true,
+      orderNumber: number.toString(),
+    });
+  };
+
+  const createOrder = async () => {
+    try {
+      await sentOrder(ingredients).then((res) => {
+        const data = res;
+        openModal(data.order.number);
+      });
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const totalAmount = (ingredients, bun) => {
+    const totalIngredientsPrice = ingredients.reduce(
+      (acc, item) => acc + item.price,
+      0
+    );
+    const totalBunPrice = bun.price * 2;
+    return totalIngredientsPrice + totalBunPrice;
   };
 
   return (
@@ -57,7 +82,7 @@ const BurgerConstructor = ({ data, setIsOrderDetailsModalOpen }) => {
       <section className={style.info}>
         <div className={cn(style.price, "pr-10")}>
           <span className={cn("text text_type_digits-medium", "pr-2")}>
-            610
+            {totalAmount(ingredients, bun)}
           </span>
           <CurrencyIcon type="primary" />
         </div>
@@ -65,7 +90,7 @@ const BurgerConstructor = ({ data, setIsOrderDetailsModalOpen }) => {
           type="primary"
           size="large"
           htmlType="button"
-          onClick={openModal}
+          onClick={createOrder}
         >
           Оформить заказ
         </Button>
@@ -75,7 +100,6 @@ const BurgerConstructor = ({ data, setIsOrderDetailsModalOpen }) => {
 };
 
 BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(ingredientType.isRequired).isRequired,
   setIsOrderDetailsModalOpen: PropTypes.func.isRequired,
 };
 
