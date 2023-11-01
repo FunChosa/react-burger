@@ -1,15 +1,20 @@
-import { NORMA_API } from "../utils/data";
+import { NORMA_API } from "./data";
 const checkResponse = (res) => {
   return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
 
-async function getIngredients() {
-  const res = await fetch(`${NORMA_API}/ingredients`);
+async function request(url, options) {
+  const res = await fetch(url, options);
   return checkResponse(res);
 }
 
+async function getIngredients() {
+  const res = await request(`${NORMA_API}/ingredients`);
+  return res;
+}
+
 async function sentOrder(ingredients) {
-  const res = await fetch(`${NORMA_API}/orders`, {
+  const options = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -17,8 +22,9 @@ async function sentOrder(ingredients) {
     body: JSON.stringify({
       ingredients: ingredients.map((item) => item._id),
     }),
-  });
-  return checkResponse(res);
+  };
+  const res = await request(`${NORMA_API}/orders`, options);
+  return res;
 }
 
 export { getIngredients, sentOrder };

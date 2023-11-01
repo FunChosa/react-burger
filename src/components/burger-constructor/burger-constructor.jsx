@@ -34,7 +34,7 @@ const BurgerConstructor = ({ setIsOrderDetailsModalOpen }) => {
         openModal(data.order.number);
       });
     } catch (error) {
-      throw error;
+      console.error(error);
     }
   };
 
