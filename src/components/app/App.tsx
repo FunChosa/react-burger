@@ -43,10 +43,10 @@ function App() {
     return null;
   }
   return (
-    <>
-      <BurgerContext.Provider value={data}>
-        <AppHeader />
-        <div className={style.app__container} id="root">
+    <BurgerContext.Provider value={data}>
+      <AppHeader />
+      <main>
+        <div className={style.app__container}>
           <BurgerIngredients
             setIsIngredientDetailsModalOpen={setIsIngredientDetailsModalOpen}
           />
@@ -54,25 +54,25 @@ function App() {
             setIsOrderDetailsModalOpen={setIsOrderDetailsModalOpen}
           />
         </div>
+      </main>
 
-        {isIngredientDetailsModalOpen.isActive && (
-          <Modal
-            handleClose={setIsIngredientDetailsModalOpen}
-            title="Детали ингредиента"
-          >
-            <IngredientDetails
-              ingredient={isIngredientDetailsModalOpen.ingredient}
-            />
-          </Modal>
-        )}
+      {isIngredientDetailsModalOpen.isActive && (
+        <Modal
+          handleClose={setIsIngredientDetailsModalOpen}
+          title="Детали ингредиента"
+        >
+          <IngredientDetails
+            ingredient={isIngredientDetailsModalOpen.ingredient}
+          />
+        </Modal>
+      )}
 
-        {isOrderDetailsModalOpen.isActive && (
-          <Modal handleClose={setIsOrderDetailsModalOpen}>
-            <OrderDetails orderId={isOrderDetailsModalOpen.orderNumber} />
-          </Modal>
-        )}
-      </BurgerContext.Provider>
-    </>
+      {isOrderDetailsModalOpen.isActive && (
+        <Modal handleClose={setIsOrderDetailsModalOpen}>
+          <OrderDetails orderId={isOrderDetailsModalOpen.orderNumber} />
+        </Modal>
+      )}
+    </BurgerContext.Provider>
   );
 }
 
