@@ -40,7 +40,7 @@ const Modal = (props) => {
       </div>
       <ModalOverlay closeModal={closeModal} />
     </>,
-    document.getElementById("root")
+    document.getElementById("modals")
   );
 };
 

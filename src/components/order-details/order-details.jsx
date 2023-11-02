@@ -3,7 +3,7 @@ import cn from "classnames";
 import done from "../../images/done.svg";
 import PropTypes from "prop-types";
 
-const OrderDetails = ({ id }) => {
+const OrderDetails = ({ orderId }) => {
   return (
     <div className={cn(style.order__details__container, "mt-10")}>
       <h2
@@ -14,7 +14,7 @@ const OrderDetails = ({ id }) => {
           "mb-2"
         )}
       >
-        {id}
+        {orderId}
       </h2>
       <p className={cn("text", "text_type_main-medium", "mb-15")}>
         идентификатор заказа
@@ -42,7 +42,7 @@ const OrderDetails = ({ id }) => {
 };
 
 OrderDetails.propTypes = {
-  id: PropTypes.string.isRequired,
+  orderId: PropTypes.string.isRequired,
 };
 
 export default OrderDetails;
