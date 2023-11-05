@@ -1,23 +1,37 @@
-import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import style from "./burger-ingredients.module.css";
-import React, { useContext } from "react";
+import React from "react";
 import cn from "classnames";
-import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
+import style from "./burger-ingredients.module.css";
 import IngredientsCategory from "./ingredients-category";
-import { useMemo } from "react";
-import { BurgerContext } from "../../services/burgerContext";
+import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useInView } from "react-intersection-observer";
+import { useEffect } from "react";
+function BurgerIngredients() {
+  const data = useSelector((state) => state.allIngredients.allIngredients);
 
-function BurgerIngredients({ setIsIngredientDetailsModalOpen }) {
-  const data = useContext(BurgerContext);
+  const buns = data.filter((item) => item.type === "bun");
+  const sauces = data.filter((item) => item.type === "sauce");
+  const mains = data.filter((item) => item.type === "main");
 
-  const [current, setCurrent] = React.useState("one"); /* табы */
+  const [current, setCurrent] = React.useState("one");
 
-  const itemsByType = useMemo(() => {
-    return data.reduce((a, c) => {
-      a[c.type] = [...(a[c.type] || []), c];
-      return a;
-    }, {});
-  }, [data]);
+  const { ref: refBun, inView: inViewBun } = useInView({ threshold: 1 });
+  const { ref: refSauce, inView: inViewSauce } = useInView({ threshold: 0.8 });
+  const { ref: refMain, inView: inViewMain } = useInView({ threshold: 0.4 });
+
+  useEffect(() => {
+    inViewBun
+      ? setCurrent("one")
+      : inViewSauce
+      ? setCurrent("two")
+      : setCurrent("three");
+  }, [inViewBun, inViewSauce, inViewMain]);
+
+  const ingredientCategories = [
+    { text: "Булки", itemsByType: buns, ref: refBun },
+    { text: "Соусы", itemsByType: sauces, ref: refSauce },
+    { text: "Начинка", itemsByType: mains, ref: refMain },
+  ];
 
   return (
     <div className={cn(style.body__container, "ml-30, mr-10")}>
@@ -25,38 +39,28 @@ function BurgerIngredients({ setIsIngredientDetailsModalOpen }) {
         Соберите бургер
       </h1>
       <section className={style.tabs__container}>
-        <Tab value="one" active={current === "one"} onClick={setCurrent}>
+        <Tab value="bun" active={current === "one"} onClick={setCurrent}>
           Булки
         </Tab>
-        <Tab value="two" active={current === "two"} onClick={setCurrent}>
+        <Tab value="sauce" active={current === "two"} onClick={setCurrent}>
           Соусы
         </Tab>
-        <Tab value="three" active={current === "three"} onClick={setCurrent}>
+        <Tab value="main" active={current === "three"} onClick={setCurrent}>
           Начинки
         </Tab>
       </section>
       <section className={cn(style.boxes__container__scroll, "pt-2, pr-6")}>
-        <IngredientsCategory
-          text="Булки"
-          itemsByType={itemsByType.bun}
-          setIsIngredientDetailsModalOpen={setIsIngredientDetailsModalOpen}
-        />
-        <IngredientsCategory
-          text="Соусы"
-          itemsByType={itemsByType.sauce}
-          setIsIngredientDetailsModalOpen={setIsIngredientDetailsModalOpen}
-        />
-        <IngredientsCategory
-          text="Начинка"
-          itemsByType={itemsByType.main}
-          setIsIngredientDetailsModalOpen={setIsIngredientDetailsModalOpen}
-        />
+        {ingredientCategories.map((category, index) => (
+          <IngredientsCategory
+            key={index}
+            text={category.text}
+            itemsByType={category.itemsByType}
+            refForTab={category.ref}
+          />
+        ))}
       </section>
     </div>
   );
 }
 
-BurgerIngredients.propTypes = {
-  setIsIngredientDetailsModalOpen: PropTypes.func.isRequired,
-};
 export default BurgerIngredients;
