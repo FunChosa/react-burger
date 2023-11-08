@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { postOrderRequest } from "../../services/actions/order-details-actions";
 import { useDrop } from "react-dnd/dist/hooks";
 import BurgerConstructorIngredients from "./burger-constructor-ingredients";
+import { v4 as uuidv4 } from "uuid";
+
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
   const { bun, ingredients } = useSelector(
@@ -32,7 +34,7 @@ const BurgerConstructor = () => {
   const [, dropTarget] = useDrop({
     accept: "ingredient",
     drop(item) {
-      dispatch({ type: "ADD_INGREDIENT", item: item });
+      dispatch({ type: "ADD_INGREDIENT", item: item, key: uuidv4() });
       dispatch({
         type: "INCREASE_COUNTER",
         itemType: item.type,

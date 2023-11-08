@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
 import {
   ADD_INGREDIENT,
   DELETE_INGREDIENT,
@@ -27,7 +26,7 @@ export const constructorIngrediensReducer = (state = initialState, action) => {
           ...state,
           ingredients: [
             ...state.ingredients,
-            { ...action.item, key: uuidv4() },
+            { ...action.item, key: action.key },
           ],
         };
       }
@@ -86,6 +85,14 @@ export const constructorIngrediensReducer = (state = initialState, action) => {
       return {
         ...state,
         ingredients,
+      };
+    }
+    case "RESET_INGREDIENTS": {
+      return {
+        ...state,
+        ingredients: [],
+        bun: {},
+        counts: {},
       };
     }
     default:

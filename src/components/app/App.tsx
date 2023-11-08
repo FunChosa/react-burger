@@ -17,11 +17,12 @@ function App() {
     (state) => state.allIngredients
   );
 
-  const { isModalActive: isIngredientDetailsModalOpen } = useSelector(
-    (state) => state.ingredientDetails
+  const isIngredientDetailsModalOpen = useSelector(
+    (state) => state.ingredientDetails.isModalActive
   );
-  const { isModalActive: isOrderDetailsModalOpen } = useSelector(
-    (state) => state.orderDetails
+
+  const isOrderDetailsModalOpen = useSelector(
+    (state) => state.orderDetails.isModalActive
   );
 
   useEffect(() => {

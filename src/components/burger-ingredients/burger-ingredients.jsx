@@ -5,13 +5,16 @@ import style from "./burger-ingredients.module.css";
 import IngredientsCategory from "./ingredients-category";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useInView } from "react-intersection-observer";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 function BurgerIngredients() {
   const data = useSelector((state) => state.allIngredients.allIngredients);
 
-  const buns = data.filter((item) => item.type === "bun");
-  const sauces = data.filter((item) => item.type === "sauce");
-  const mains = data.filter((item) => item.type === "main");
+  const [buns, sauces, mains] = useMemo(() => {
+    const buns = data.filter((item) => item.type === "bun");
+    const sauces = data.filter((item) => item.type === "sauce");
+    const mains = data.filter((item) => item.type === "main");
+    return [buns, sauces, mains];
+  }, [data]);
 
   const [current, setCurrent] = React.useState("one");
 
