@@ -1,78 +1,62 @@
+// @ts-nocheck
 import AppHeader from "../app-header/app-header";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients.jsx";
 import style from "./app.module.css";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import OrderDetails from "../order-details/order-details";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
-import { getIngredients } from "../../utils/burger-api";
-import { BurgerContext } from "../../services/burgerContext";
-
+import { useDispatch, useSelector } from "react-redux";
+import { getData } from "../../services/actions/all-ingredients-actions";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 function App() {
-  const [data, setData] = useState([]);
-  const [success, setSuccess] = useState(false);
-  const [isOrderDetailsModalOpen, setIsOrderDetailsModalOpen] = useState({
-    isActive: false,
-    orderNumber: "",
-  });
-  const [isIngredientDetailsModalOpen, setIsIngredientDetailsModalOpen] =
-    useState({
-      isActive: false,
-      ingredient: {},
-    });
+  const dispatch = useDispatch();
+  const { allIngredientsRequest, allIngredientsFailed } = useSelector(
+    (state) => state.allIngredients
+  );
 
-  const getData = async () => {
-    try {
-      await getIngredients().then((res) => {
-        setData(res.data);
-        setSuccess(res.success);
-      });
-    } catch (error) {
-      console.error(error);
-      setSuccess(false);
-    }
-  };
+  const isIngredientDetailsModalOpen = useSelector(
+    (state) => state.ingredientDetails.isModalActive
+  );
+
+  const isOrderDetailsModalOpen = useSelector(
+    (state) => state.orderDetails.isModalActive
+  );
 
   useEffect(() => {
-    getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    dispatch(getData());
+  }, [dispatch]);
 
-  if (!success) {
-    return null;
+  if (allIngredientsFailed) {
+    return <h1>Произошла ошибка загрузки ингридиентов</h1>;
+  }
+  if (allIngredientsRequest) {
+    return <h1>Загрузка ингридиентов</h1>;
   }
   return (
-    <BurgerContext.Provider value={data}>
+    <>
       <AppHeader />
       <main>
         <div className={style.app__container}>
-          <BurgerIngredients
-            setIsIngredientDetailsModalOpen={setIsIngredientDetailsModalOpen}
-          />
-          <BurgerConstructor
-            setIsOrderDetailsModalOpen={setIsOrderDetailsModalOpen}
-          />
+          <DndProvider backend={HTML5Backend}>
+            <BurgerIngredients />
+            <BurgerConstructor />
+          </DndProvider>
         </div>
       </main>
-
-      {isIngredientDetailsModalOpen.isActive && (
-        <Modal
-          handleClose={setIsIngredientDetailsModalOpen}
-          title="Детали ингредиента"
-        >
-          <IngredientDetails
-            ingredient={isIngredientDetailsModalOpen.ingredient}
-          />
+      {isIngredientDetailsModalOpen && (
+        <Modal title="Детали ингредиента">
+          <IngredientDetails />
         </Modal>
       )}
-
-      {isOrderDetailsModalOpen.isActive && (
-        <Modal handleClose={setIsOrderDetailsModalOpen}>
-          <OrderDetails orderId={isOrderDetailsModalOpen.orderNumber} />
+      {isOrderDetailsModalOpen && (
+        <Modal>
+          <OrderDetails />
         </Modal>
       )}
-    </BurgerContext.Provider>
+    </>
   );
 }
 
