@@ -1,74 +1,69 @@
-import style from "./burger-ingredients.module.css";
+import React from "react";
 import cn from "classnames";
-import {
-  CurrencyIcon,
-  Counter,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import { ingredientType } from "../../utils/prop-types";
-import { useDispatch, useSelector } from "react-redux";
-import { useDrag } from "react-dnd";
-function BurgerIngredient({ item }) {
-  const dispatch = useDispatch();
+import { useSelector } from "react-redux";
+import style from "./burger-ingredients.module.css";
+import IngredientsCategory from "./ingredients-category";
+import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useInView } from "react-intersection-observer";
+import { useEffect, useMemo } from "react";
+function BurgerIngredients() {
+  const data = useSelector((state) => state.allIngredients.allIngredients);
 
-  const openModal = () => {
-    dispatch({ type: "OPEN_MODAL_INGREDIENT_DETAILS", ingredient: item });
-  };
+  const [buns, sauces, mains] = useMemo(() => {
+    const buns = data.filter((item) => item.type === "bun");
+    const sauces = data.filter((item) => item.type === "sauce");
+    const mains = data.filter((item) => item.type === "main");
+    return [buns, sauces, mains];
+  }, [data]);
 
-  const { counts, bun } = useSelector((store) => store.constructorIngrediens);
+  const [current, setCurrent] = React.useState("one");
 
-  const count =
-    item.type === "bun" && bun && bun._id === item._id ? 2 : counts[item._id];
+  const { ref: refBun, inView: inViewBun } = useInView({ threshold: 1 });
+  const { ref: refSauce, inView: inViewSauce } = useInView({ threshold: 0.8 });
+  const { ref: refMain, inView: inViewMain } = useInView({ threshold: 0.4 });
 
-  const [{ isDragging }, dragRef] = useDrag({
-    type: "ingredient",
-    item: item,
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
-  });
+  useEffect(() => {
+    inViewBun
+      ? setCurrent("one")
+      : inViewSauce
+      ? setCurrent("two")
+      : setCurrent("three");
+  }, [inViewBun, inViewSauce, inViewMain]);
 
-  const borderTopColor = isDragging ? "rgba(76, 76, 255, 0.7)" : "transparent";
-  const borderBottomColor = isDragging
-    ? "rgba(76, 76, 255, 0.7)"
-    : "transparent";
+  const ingredientCategories = [
+    { text: "Булки", itemsByType: buns, ref: refBun },
+    { text: "Соусы", itemsByType: sauces, ref: refSauce },
+    { text: "Начинка", itemsByType: mains, ref: refMain },
+  ];
 
   return (
-    <div
-      className={cn(style.item__container, "mb-8")}
-      onClick={openModal}
-      ref={dragRef}
-      style={{ borderTopColor, borderBottomColor }}
-    >
-      <img
-        className={cn("ml-4", "mr-4", "mb-1")}
-        src={item.image}
-        alt={item.name}
-      />
-      <p className={cn("mb-1", style.item__price)}>
-        <strong className={cn("text text_type_digits-default", "mr-1")}>
-          {item.price}
-        </strong>
-        <CurrencyIcon type="primary" />
-      </p>
-      <p
-        className={cn(
-          style.item__name,
-          "mt-1",
-          "text",
-          "text_type_main-default"
-        )}
-      >
-        {item.name}
-      </p>
-      <div className={cn(style.item__counter)}>
-        {count > 0 && <Counter count={count} size="default" />}
-      </div>
+    <div className={cn(style.body__container, "ml-30, mr-10")}>
+      <h1 className={cn("text text_type_main-large", "pt-10 pb-5")}>
+        Соберите бургер
+      </h1>
+      <section className={style.tabs__container}>
+        <Tab value="bun" active={current === "one"} onClick={setCurrent}>
+          Булки
+        </Tab>
+        <Tab value="sauce" active={current === "two"} onClick={setCurrent}>
+          Соусы
+        </Tab>
+        <Tab value="main" active={current === "three"} onClick={setCurrent}>
+          Начинки
+        </Tab>
+      </section>
+      <section className={cn(style.boxes__container__scroll, "pt-2, pr-6")}>
+        {ingredientCategories.map((category, index) => (
+          <IngredientsCategory
+            key={index}
+            text={category.text}
+            itemsByType={category.itemsByType}
+            refForTab={category.ref}
+          />
+        ))}
+      </section>
     </div>
   );
 }
 
-BurgerIngredient.propTypes = {
-  item: ingredientType.isRequired,
-};
-
-export default BurgerIngredient;
+export default BurgerIngredients;
