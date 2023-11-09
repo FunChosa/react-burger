@@ -1,16 +1,9 @@
 import style from "./order-details.module.css";
 import cn from "classnames";
 import done from "../../images/done.svg";
-import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
 
-const OrderDetails = () => {
-  const modalText = {
-    orderIdentifier: "идентификатор заказа",
-    title: "Ваш заказ начали готовить",
-    subtitle: "Дождитесь готовности на орбитальной станции",
-  };
-
-  const orderNumber = useSelector((state) => state.orderDetails.orderNumber);
+const OrderDetails = ({ orderId }) => {
   return (
     <div className={cn(style.order__details__container, "mt-10")}>
       <h2
@@ -21,10 +14,10 @@ const OrderDetails = () => {
           "mb-2"
         )}
       >
-        {orderNumber}
+        {orderId}
       </h2>
       <p className={cn("text", "text_type_main-medium", "mb-15")}>
-        {modalText.orderIdentifier}
+        идентификатор заказа
       </p>
       <img
         className={cn(style.order__details__image, "mb-15")}
@@ -32,7 +25,7 @@ const OrderDetails = () => {
         alt="done"
       />
       <p className={cn("text", "text_type_main-default", "mb-2")}>
-        {modalText.title}
+        Ваш заказ начали готовить
       </p>
       <p
         className={cn(
@@ -42,10 +35,14 @@ const OrderDetails = () => {
           "mb-30"
         )}
       >
-        {modalText.subtitle}
+        Дождитесь готовности на орбитальной станции
       </p>
     </div>
   );
+};
+
+OrderDetails.propTypes = {
+  orderId: PropTypes.string.isRequired,
 };
 
 export default OrderDetails;

@@ -5,13 +5,10 @@ import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import style from "./modal.module.css";
 import ModalOverlay from "../modal-overlay/modal-overlay";
-import { useDispatch } from "react-redux";
-const Modal = (props) => {
-  const dispatch = useDispatch();
 
+const Modal = (props) => {
   const closeModal = () => {
-    dispatch({ type: "CLOSE_MODAL_INGREDIENT_DETAILS" });
-    dispatch({ type: "CLOSE_MODAL_ORDER_DETAILS" });
+    props.handleClose(false);
   };
 
   const close = (event) => {
@@ -48,6 +45,7 @@ const Modal = (props) => {
 };
 
 Modal.propTypes = {
+  handleClose: PropTypes.func.isRequired,
   title: PropTypes.string,
   children: PropTypes.element,
 };

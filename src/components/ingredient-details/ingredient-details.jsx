@@ -1,9 +1,8 @@
 import style from "./ingredient-details.module.css";
 import cn from "classnames";
 import NutritionValue from "./nutrition-value";
-import { useSelector } from "react-redux";
-function IngredientDetails() {
-  const ingredient = useSelector((state) => state.ingredientDetails.ingredient);
+import { ingredientType } from "../../utils/prop-types";
+function IngredientDetails({ ingredient }) {
   return (
     <div className={cn(style.ingredient__details__container, "mt-10", "mb-15")}>
       <img
@@ -23,5 +22,9 @@ function IngredientDetails() {
     </div>
   );
 }
+
+IngredientDetails.propTypes = {
+  ingredient: ingredientType.isRequired,
+};
 
 export default IngredientDetails;

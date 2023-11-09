@@ -1,74 +1,62 @@
+import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./burger-ingredients.module.css";
+import React, { useContext } from "react";
 import cn from "classnames";
-import {
-  CurrencyIcon,
-  Counter,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import { ingredientType } from "../../utils/prop-types";
-import { useDispatch, useSelector } from "react-redux";
-import { useDrag } from "react-dnd";
-function BurgerIngredient({ item }) {
-  const dispatch = useDispatch();
+import PropTypes from "prop-types";
+import IngredientsCategory from "./ingredients-category";
+import { useMemo } from "react";
+import { BurgerContext } from "../../services/burgerContext";
 
-  const openModal = () => {
-    dispatch({ type: "OPEN_MODAL_INGREDIENT_DETAILS", ingredient: item });
-  };
+function BurgerIngredients({ setIsIngredientDetailsModalOpen }) {
+  const data = useContext(BurgerContext);
 
-  const { counts, bun } = useSelector((store) => store.constructorIngrediens);
+  const [current, setCurrent] = React.useState("one"); /* табы */
 
-  const count =
-    item.type === "bun" && bun && bun._id === item._id ? 2 : counts[item._id];
-
-  const [{ isDragging }, dragRef] = useDrag({
-    type: "ingredient",
-    item: item,
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
-  });
-
-  const borderTopColor = isDragging ? "rgba(76, 76, 255, 0.7)" : "transparent";
-  const borderBottomColor = isDragging
-    ? "rgba(76, 76, 255, 0.7)"
-    : "transparent";
+  const itemsByType = useMemo(() => {
+    return data.reduce((a, c) => {
+      a[c.type] = [...(a[c.type] || []), c];
+      return a;
+    }, {});
+  }, [data]);
 
   return (
-    <div
-      className={cn(style.item__container, "mb-8")}
-      onClick={openModal}
-      ref={dragRef}
-      style={{ borderTopColor, borderBottomColor }}
-    >
-      <img
-        className={cn("ml-4", "mr-4", "mb-1")}
-        src={item.image}
-        alt={item.name}
-      />
-      <p className={cn("mb-1", style.item__price)}>
-        <strong className={cn("text text_type_digits-default", "mr-1")}>
-          {item.price}
-        </strong>
-        <CurrencyIcon type="primary" />
-      </p>
-      <p
-        className={cn(
-          style.item__name,
-          "mt-1",
-          "text",
-          "text_type_main-default"
-        )}
-      >
-        {item.name}
-      </p>
-      <div className={cn(style.item__counter)}>
-        {count > 0 && <Counter count={count} size="default" />}
-      </div>
+    <div className={cn(style.body__container, "ml-30, mr-10")}>
+      <h1 className={cn("text text_type_main-large", "pt-10 pb-5")}>
+        Соберите бургер
+      </h1>
+      <section className={style.tabs__container}>
+        <Tab value="one" active={current === "one"} onClick={setCurrent}>
+          Булки
+        </Tab>
+        <Tab value="two" active={current === "two"} onClick={setCurrent}>
+          Соусы
+        </Tab>
+        <Tab value="three" active={current === "three"} onClick={setCurrent}>
+          Начинки
+        </Tab>
+      </section>
+      <section className={cn(style.boxes__container__scroll, "pt-2, pr-6")}>
+        <IngredientsCategory
+          text="Булки"
+          itemsByType={itemsByType.bun}
+          setIsIngredientDetailsModalOpen={setIsIngredientDetailsModalOpen}
+        />
+        <IngredientsCategory
+          text="Соусы"
+          itemsByType={itemsByType.sauce}
+          setIsIngredientDetailsModalOpen={setIsIngredientDetailsModalOpen}
+        />
+        <IngredientsCategory
+          text="Начинка"
+          itemsByType={itemsByType.main}
+          setIsIngredientDetailsModalOpen={setIsIngredientDetailsModalOpen}
+        />
+      </section>
     </div>
   );
 }
 
-BurgerIngredient.propTypes = {
-  item: ingredientType.isRequired,
+BurgerIngredients.propTypes = {
+  setIsIngredientDetailsModalOpen: PropTypes.func.isRequired,
 };
-
-export default BurgerIngredient;
+export default BurgerIngredients;
