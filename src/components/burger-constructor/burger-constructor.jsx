@@ -20,7 +20,7 @@ const BurgerConstructor = () => {
   const createOrder = () => {
     dispatch(postOrderRequest(ingredients));
   };
-
+  
   const totalAmount = (ingredients, bun) => {
     const totalIngredientsPrice = ingredients.reduce(
       (acc, item) => acc + item.price,
