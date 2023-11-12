@@ -23,7 +23,13 @@
   align-items: center;
   cursor: pointer;
   text-decoration: none;
-  color: inherit;
-  /* width: 197px;
-    height: 56px; */
+  color: #8585AD;
+}
+.navigation__item__active
+{
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  text-decoration: none;
+  color: #ffffff;
 }
