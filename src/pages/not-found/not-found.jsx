@@ -2,6 +2,7 @@ import style from "./not-found.module.css";
 import cn from "classnames";
 import { NavLink } from "react-router-dom";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
+import { paths } from "../../utils/paths";
 export default function NotFound() {
   return (
     <div className={cn(style.container, "mt-30")}>
@@ -13,7 +14,10 @@ export default function NotFound() {
       >
         Страница не найдена. А может её никогда и не было?..
       </p>
-      <NavLink to="/" className={cn("mt-20", "text text_type_main-medium")}>
+      <NavLink
+        to={paths.main}
+        className={cn("mt-20", "text text_type_main-medium")}
+      >
         <Button htmlType="button" type="primary" size="large">
           Вернуться на главную
         </Button>

@@ -6,16 +6,19 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./register.module.css";
 import cn from "classnames";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { register } from "../../services/actions/user-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { paths } from "../../utils/paths";
+import { useForm } from "../../hooks/useForm";
+
 function Register() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isRegisterSuccess = useSelector((state) => state.user.registerSuccess);
-  const [registerInfo, setRegisterInfo] = useState({
+  const { values, handleChange } = useForm({
     email: "",
     name: "",
     password: "",
@@ -23,7 +26,7 @@ function Register() {
 
   const registerUser = (e) => {
     e.preventDefault();
-    dispatch(register({ ...registerInfo }));
+    dispatch(register({ ...values }));
   };
 
   useEffect(() => {
@@ -31,12 +34,6 @@ function Register() {
       navigate("/login", { replace: true });
     }
   });
-  const handleInputChange = (field, value) => {
-    setRegisterInfo((prevInfo) => ({
-      ...prevInfo,
-      [field]: value,
-    }));
-  };
 
   return (
     <form className={cn(style.container, "mt-20")} onSubmit={registerUser}>
@@ -44,21 +41,24 @@ function Register() {
       <div className={cn("mb-6")}>
         <Input
           placeholder="Имя"
-          onChange={(e) => handleInputChange("name", e.target.value)}
-          value={registerInfo.name}
+          onChange={(e) => handleChange(e)}
+          value={values.name}
+          name="name"
         />
       </div>
       <div className={cn("mb-6")}>
         <EmailInput
           placeholder="Укажите e-mail"
-          onChange={(e) => handleInputChange("email", e.target.value)}
-          value={registerInfo.email}
+          onChange={(e) => handleChange(e)}
+          value={values.email}
+          name="email"
         />
       </div>
       <div className={cn("mb-6")}>
         <PasswordInput
-          onChange={(e) => handleInputChange("password", e.target.value)}
-          value={registerInfo.password}
+          onChange={(e) => handleChange(e)}
+          value={values.password}
+          name="password"
         />
       </div>
       <Button htmlType="submit">Зарегистрироваться</Button>
@@ -69,7 +69,7 @@ function Register() {
         )}
       >
         Уже зарегистрированы?
-        <NavLink to="/login" className={cn(style.link, "pl-2")}>
+        <NavLink to={paths.login} className={cn(style.link, "pl-2")}>
           Войти
         </NavLink>
       </p>

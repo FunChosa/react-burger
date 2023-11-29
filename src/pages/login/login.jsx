@@ -5,36 +5,37 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./login.module.css";
 import cn from "classnames";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { login } from "../../services/actions/user-actions";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { paths } from "../../utils/paths";
+import { useForm } from "../../hooks/useForm";
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
   const isLoginSuccess = useSelector((state) => {
     return state.user.loginSuccess;
   });
-  const [loginInfo, setLoginInfo] = useState({
+
+  const { values, handleChange } = useForm({
     email: "",
     password: "",
   });
+
   const loginForm = (e) => {
     e.preventDefault();
-    dispatch(login({ ...loginInfo })).then(() => {});
+    dispatch(login({ ...values })).then(() => {});
   };
 
   useEffect(() => {
     if (isLoginSuccess) {
-      navigate("/", { replace: true });
+      const { from } = location.state || { from: { pathname: "/" } };
+      navigate(from, { replace: true });
     }
-  }, [isLoginSuccess, navigate]);
-  const handleInputChange = (field, value) => {
-    setLoginInfo((prevInfo) => ({
-      ...prevInfo,
-      [field]: value,
-    }));
-  };
+  }, [isLoginSuccess, location.state, navigate]);
 
   return (
     <form className={cn(style.container, "mt-20")} onSubmit={loginForm}>
@@ -42,15 +43,15 @@ function Login() {
       <div className={cn("mb-6")}>
         <EmailInput
           placeholder="Укажите e-mail"
-          onChange={(e) => handleInputChange("email", e.target.value)}
-          value={loginInfo.email}
+          onChange={(e) => handleChange(e)}
+          value={values.email}
           name="email"
         />
       </div>
       <div className={cn("mb-6")}>
         <PasswordInput
-          onChange={(e) => handleInputChange("password", e.target.value)}
-          value={loginInfo.password}
+          onChange={(e) => handleChange(e)}
+          value={values.password}
           name="password"
         />
       </div>
@@ -63,7 +64,7 @@ function Login() {
         )}
       >
         Вы - новый пользователь?
-        <NavLink to="/register" className={cn(style.link, "pl-2")}>
+        <NavLink to={paths.register} className={cn(style.link, "pl-2")}>
           Зарегистрироваться
         </NavLink>
       </p>
@@ -74,7 +75,7 @@ function Login() {
         )}
       >
         Забыли пароль?
-        <NavLink to="/forgot-password" className={cn(style.link, "pl-2")}>
+        <NavLink to={paths.forgotPassword} className={cn(style.link, "pl-2")}>
           Восстановить пароль
         </NavLink>
       </p>

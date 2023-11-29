@@ -54,6 +54,8 @@ const initialState = {
   resetPasswordRequest: false,
   resetPasswordSuccess: false,
   resetPasswordFailed: false,
+
+  isUserAuthorized: false,
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -71,6 +73,7 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         loginRequest: false,
         loginSuccess: true,
+        isUserAuthorized: true,
         loginFailed: false,
       };
 
@@ -117,6 +120,7 @@ export const userReducer = (state = initialState, action) => {
         logoutRequest: false,
         logoutSuccess: true,
         loginSuccess: false,
+        isUserAuthorized: false,
         logoutFailed: false,
       };
     case LOGOUT_USER_ERROR:
@@ -130,7 +134,6 @@ export const userReducer = (state = initialState, action) => {
       return {
         ...state,
         getUserInfoRequest: true,
-        getUserInfoSuccess: false,
         getUserInfoFailed: false,
       };
     case GET_USER_INFO_SUCCESS:
@@ -149,7 +152,6 @@ export const userReducer = (state = initialState, action) => {
       return {
         ...state,
         getUserInfoRequest: false,
-        getUserInfoSuccess: false,
         getUserInfoFailed: true,
       };
     case UPDATE_USER_INFO_REQUEST:

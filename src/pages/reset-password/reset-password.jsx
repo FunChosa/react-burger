@@ -5,24 +5,26 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./reset-password.module.css";
 import cn from "classnames";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Navigate, NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { resetPasswordRequest } from "../../services/actions/user-actions";
+import { paths } from "../../utils/paths";
+import { useForm } from "../../hooks/useForm";
+
 function ResetPassword() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isResetPasswordSuccess = useSelector(
     (state) => state.user.resetPasswordSuccess
   );
-  const [resetPasswordInfo, setResetPasswordInfo] = useState({
+  const { values, handleChange } = useForm({
     password: "",
     resetToken: "",
   });
-
   const resetPassword = (e) => {
     e.preventDefault();
-    dispatch(resetPasswordRequest({ ...resetPasswordInfo }));
+    dispatch(resetPasswordRequest({ ...values }));
   };
   useEffect(() => {
     if (isResetPasswordSuccess) {
@@ -30,15 +32,9 @@ function ResetPassword() {
       navigate("/login", { replace: true });
     }
   });
-  const handleInputChange = (field, value) => {
-    setResetPasswordInfo((prevInfo) => ({
-      ...prevInfo,
-      [field]: value,
-    }));
-  };
 
   if (localStorage.getItem("forgotPasswordEmail") === null) {
-    return <Navigate to="/forgot-password" />;
+    return <Navigate to={paths.forgotPassword} />;
   }
 
   return (
@@ -48,16 +44,18 @@ function ResetPassword() {
       </p>
       <div className={cn("mb-6")}>
         <PasswordInput
-          onChange={(e) => handleInputChange("password", e.target.value)}
-          value={resetPasswordInfo.password}
+          onChange={(e) => handleChange(e)}
+          value={values.password}
+          name="password"
           placeholder="Введите новый пароль"
         />
       </div>
       <div className={cn("mb-6")}>
         <Input
           placeholder="Введите код из письма"
-          onChange={(e) => handleInputChange("resetToken", e.target.value)}
-          value={resetPasswordInfo.resetToken}
+          onChange={(e) => handleChange(e)}
+          value={values.resetToken}
+          name="resetToken"
         />
       </div>
       <Button htmlType="submit">Сохранить</Button>
@@ -68,7 +66,7 @@ function ResetPassword() {
         )}
       >
         Вспомнили пароль?
-        <NavLink to="/login" className={cn(style.link, "pl-2")}>
+        <NavLink to={paths.login} className={cn(style.link, "pl-2")}>
           Войти
         </NavLink>
       </p>

@@ -113,6 +113,9 @@ export async function refreshToken() {
 }
 // получение информации о пользователе
 export async function getUserInfo() {
+  if (!getCookie("accessToken")) {
+    return;
+  }
   const options = {
     method: "GET",
     headers: {

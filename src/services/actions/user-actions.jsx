@@ -113,7 +113,7 @@ export const getUserInfoRequest = () => {
         dispatch({ type: GET_USER_INFO_ERROR });
       }
     } catch (err) {
-      if (err.message === "jwt malformed") {
+      if (err.message === "jwt expired" || err.message === "jwt malformed") {
         const res = await refreshToken();
         if (res && res.success) {
           setCookie("accessToken", res.accessToken.split("Bearer ")[1]);
@@ -121,7 +121,7 @@ export const getUserInfoRequest = () => {
         }
       } else {
         dispatch({ type: GET_USER_INFO_ERROR });
-        console.log("GET_USER_INFO_ERROR", err);
+        // console.log("GET_USER_INFO_ERROR", err);
       }
     }
   };
@@ -138,7 +138,7 @@ export const updateUserInfoRequest = ({ name, email, password }) => {
         dispatch({ type: UPDATE_USER_INFO_ERROR });
       }
     } catch (err) {
-      if (err.message === "jwt malformed") {
+      if (err.message === "jwt expired" || err.message === "jwt malformed") {
         const res = await refreshToken();
         if (res && res.success) {
           setCookie("accessToken", res.accessToken.split("Bearer ")[1]);

@@ -11,31 +11,36 @@ import OrderDetails from "../order-details/order-details";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../../components/modal/modal";
 import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import { getData } from "../../services/actions/all-ingredients-actions";
 import { useDispatch } from "react-redux";
 import ProtectedRouteElement from "../protected-route-element/protected-route-element";
+import { paths } from "../../utils/paths";
+import { useNavigate } from "react-router-dom";
 function App() {
   const ModalSwitch = () => {
     const dispatch = useDispatch();
+    const location = useLocation();
+    const navigate = useNavigate();
+    const background = location.state && location.state.background;
+
     useEffect(() => {
       // @ts-ignore
       dispatch(getData());
-    });
-    const location = useLocation();
-    let background = location.state && location.state.background;
+    }, [dispatch]);
+
+    const handleModalClose = useCallback(() => {
+      navigate("/");
+    }, [navigate]);
 
     return (
       <>
         <AppHeader />
         <Routes location={background || location}>
-          <Route path="/" element={<Main />} />
+          <Route path={paths.main} element={<Main />} />
+          <Route path={paths.ingredients} element={<IngredientDetails />} />
           <Route
-            path="ingredients/:ingredientId"
-            element={<IngredientDetails />}
-          />
-          <Route
-            path="/login"
+            path={paths.login}
             element={
               <ProtectedRouteElement
                 element={<Login />}
@@ -44,7 +49,7 @@ function App() {
             }
           />
           <Route
-            path="/register"
+            path={paths.register}
             element={
               <ProtectedRouteElement
                 element={<Register />}
@@ -53,7 +58,7 @@ function App() {
             }
           />
           <Route
-            path="/forgot-password"
+            path={paths.forgotPassword}
             element={
               <ProtectedRouteElement
                 element={<ForgotPassword />}
@@ -62,7 +67,7 @@ function App() {
             }
           />
           <Route
-            path="/reset-password"
+            path={paths.resetPassword}
             element={
               <ProtectedRouteElement
                 element={<ResetPassword />}
@@ -71,27 +76,27 @@ function App() {
             }
           />
           <Route
-            path="profile"
+            path={paths.profile}
             // @ts-ignore
             element={<ProtectedRouteElement element={<Profile />} />}
           />
           <Route
-            path="/profile/orders/:orderNumber"
+            path={paths.orderNumber}
             element={<ProtectedRouteElement element={<OrderDetails />} />}
           />
           <Route path="*" element={<NotFound />} /> {/* 404 */}
         </Routes>
         {background && (
-          <Route
-            path="/ingredients/:ingredientId"
-            element={<Modal title="Детали ингредиента" />}
-          />
-        )}
-        {background && (
-          <Route
-            path="/profile/orders/:orderNumber"
-            element={<Modal title="Детали заказа" />}
-          />
+          <Routes>
+            <Route
+              path={paths.ingredients}
+              element={
+                <Modal title="Детали ингредиента" onClose={handleModalClose}>
+                  <IngredientDetails />
+                </Modal>
+              }
+            />
+          </Routes>
         )}
       </>
     );

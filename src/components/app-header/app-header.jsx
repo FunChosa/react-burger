@@ -7,7 +7,7 @@ import {
 import style from "./app-header.module.css";
 import cn from "classnames";
 import { NavLink, useLocation } from "react-router-dom";
-
+import { paths } from "../../utils/paths";
 function AppHeader() {
   const { pathname } = useLocation();
   return (
@@ -15,7 +15,7 @@ function AppHeader() {
       <nav className={cn("mt-4 mb-4", style.navigation_container__main)}>
         <div className={cn(style.navigation_container__left)}>
           <NavLink
-            to="/"
+            to={paths.main}
             className={({ isActive }) =>
               isActive
                 ? cn("pt-4 pb-4 pr-5 pl-5", style.navigation__item__active)
@@ -28,7 +28,7 @@ function AppHeader() {
             </p>
           </NavLink>
           <NavLink
-            to="/feed"
+            to={paths.feed}
             className={({ isActive }) =>
               isActive
                 ? cn("pt-4 pb-4 pr-5 pl-5", style.navigation__item__active)
@@ -42,10 +42,12 @@ function AppHeader() {
           </NavLink>
         </div>
         <div className={cn("pr-30")}>
-          <Logo />
+          <NavLink to={paths.main}>
+            <Logo />
+          </NavLink>
         </div>
         <NavLink
-          to="/profile"
+          to={paths.profile}
           className={({ isActive }) =>
             isActive
               ? cn("pt-4 pb-4 pr-5 pl-5", style.navigation__item__active)

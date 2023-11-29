@@ -14,41 +14,42 @@ import {
   getUserInfoRequest,
   updateUserInfoRequest,
 } from "../../services/actions/user-actions";
+import { paths } from "../../utils/paths";
+import { useForm } from "../../hooks/useForm";
+
 function Profile() {
   const { pathname } = useLocation();
   const dispatch = useDispatch();
   const currentUserName = useSelector((state) => state.user.user.name);
   const currentUserEmail = useSelector((state) => state.user.user.email);
-  const [userDetails, setUserDetails] = useState({
+  const { values, handleChange, setValues, isChanged, setIsChanged } = useForm({
     name: currentUserName,
     email: currentUserEmail,
     password: "",
   });
-
   const [isDisabled, setIsDisabled] = useState(true);
   const [isUserLoaded, setIsUserLoaded] = useState(false);
-  const [isChanged, setIsChanged] = useState(false);
 
   useEffect(() => {
     dispatch(getUserInfoRequest()).then(() => {
       setIsUserLoaded(true);
     });
-  }, []);
+  }, [dispatch]);
   const saveChanges = () => {
-    dispatch(updateUserInfoRequest({ ...userDetails })).then(() => {
+    dispatch(updateUserInfoRequest({ ...values })).then(() => {
       setIsChanged(false);
     });
   };
   useEffect(() => {
-    setUserDetails({
+    setValues({
       name: currentUserName,
       email: currentUserEmail,
       password: "",
     });
     setIsChanged(false);
-  }, [currentUserName, currentUserEmail]);
+  }, [currentUserName, currentUserEmail, setValues, setIsChanged]);
   const resetChanges = () => {
-    setUserDetails({
+    setValues({
       name: currentUserName,
       email: currentUserEmail,
       password: "",
@@ -58,13 +59,6 @@ function Profile() {
   const logoutRequest = () => {
     dispatch(logout());
   };
-  const handleInputChange = (field, value) => {
-    setUserDetails((prevInfo) => ({
-      ...prevInfo,
-      [field]: value,
-    }));
-    setIsChanged(true);
-  };
 
   return (
     isUserLoaded && (
@@ -72,7 +66,7 @@ function Profile() {
         <div className={cn(style.navigation, "mt-20")}>
           <NavLink
             className={cn("mb-6", style.link)}
-            to="/profile"
+            to={paths.profile}
             activeclassname={style.active}
           >
             <p
@@ -87,7 +81,7 @@ function Profile() {
           </NavLink>
           <NavLink
             className={cn("mb-6", style.link)}
-            to="/profile/orders"
+            to={paths.orders}
             activeclassname={style.active}
           >
             <p
@@ -102,7 +96,7 @@ function Profile() {
           </NavLink>
           <NavLink
             className={cn("mb-6", style.link)}
-            to="/login"
+            to={paths.login}
             activeclassname={style.active}
           >
             <p
@@ -131,9 +125,9 @@ function Profile() {
             <Input
               placeholder="Имя"
               onChange={(e) => {
-                handleInputChange("name", e.target.value);
+                handleChange(e);
               }}
-              value={userDetails.name}
+              value={values.name}
               icon="EditIcon"
               name={"name"}
               disabled={isDisabled}
@@ -146,19 +140,19 @@ function Profile() {
             <EmailInput
               placeholder="Логин"
               onChange={(e) => {
-                handleInputChange("email", e.target.value);
+                handleChange(e);
               }}
               name={"email"}
-              value={userDetails.email}
+              value={values.email}
               isIcon={true}
             />
           </div>
           <div className={cn("mb-6")}>
             <PasswordInput
               onChange={(e) => {
-                handleInputChange("password", e.target.value);
+                handleChange(e);
               }}
-              value={userDetails.password}
+              value={values.password}
               name={"password"}
               icon="EditIcon"
             />
