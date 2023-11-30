@@ -5,19 +5,11 @@ import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import style from "./modal.module.css";
 import ModalOverlay from "../modal-overlay/modal-overlay";
-import { useDispatch } from "react-redux";
 const Modal = (props) => {
-  const dispatch = useDispatch();
-
-  const closeModal = () => {
-    dispatch({ type: "CLOSE_MODAL_INGREDIENT_DETAILS" });
-    dispatch({ type: "CLOSE_MODAL_ORDER_DETAILS" });
-  };
-
   const close = (event) => {
     const { code } = event;
     if (code === "Escape") {
-      closeModal();
+      props.onClose();
     }
   };
 
@@ -36,12 +28,12 @@ const Modal = (props) => {
         <div className={cn(style.modal__header, "mt-10", "ml-10", "mr-10")}>
           <h1 className={cn("text text_type_main-large")}>{props.title}</h1>
           <div className={cn(style.close__icon)}>
-            <CloseIcon type="primary" onClick={closeModal} />
+            <CloseIcon type="primary" onClick={props.onClose} />
           </div>
         </div>
         {props.children}
       </div>
-      <ModalOverlay closeModal={closeModal} />
+      <ModalOverlay closeModal={props.onClose} />
     </>,
     document.getElementById("modals")
   );
@@ -50,6 +42,7 @@ const Modal = (props) => {
 Modal.propTypes = {
   title: PropTypes.string,
   children: PropTypes.element,
+  onClose: PropTypes.func,
 };
 
 export default Modal;

@@ -10,15 +10,20 @@ import { postOrderRequest } from "../../services/actions/order-details-actions";
 import { useDrop } from "react-dnd/dist/hooks";
 import BurgerConstructorIngredients from "./burger-constructor-ingredients";
 import { v4 as uuidv4 } from "uuid";
+import { getCookie } from "../../utils/cookie-handler";
+import { useNavigate } from "react-router-dom";
 
 const BurgerConstructor = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { bun, ingredients } = useSelector(
     (state) => state.constructorIngrediens
   );
 
   const createOrder = () => {
-    dispatch(postOrderRequest(ingredients));
+    const token =
+      getCookie("accessToken") || localStorage.getItem("refreshToken");
+    !token ? navigate("/login") : dispatch(postOrderRequest(ingredients));
   };
 
   const totalAmount = (ingredients, bun) => {
