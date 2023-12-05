@@ -10,9 +10,10 @@ const OrderDetails = () => {
     subtitle: "Дождитесь готовности на орбитальной станции",
   };
 
-  const orderNumber = useSelector(
+  const orderNumber: number = useSelector(
     (state: any) => state.orderDetails.orderNumber
   );
+
   return (
     <div className={cn(style.order__details__container, "mt-10")}>
       <h2

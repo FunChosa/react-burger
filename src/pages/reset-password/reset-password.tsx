@@ -15,7 +15,7 @@ import { useForm } from "../../hooks/useForm";
 function ResetPassword() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isResetPasswordSuccess = useSelector(
+  const isResetPasswordSuccess: boolean = useSelector(
     (state: any) => state.user.resetPasswordSuccess
   );
   const { values, handleChange } = useForm({
@@ -45,8 +45,6 @@ function ResetPassword() {
       <div className={cn("mb-6")}>
         <PasswordInput
           onChange={(e) => handleChange(e)}
-          // @ts-ignore
-
           value={values.password}
           name="password"
           placeholder="Введите новый пароль"
@@ -56,8 +54,6 @@ function ResetPassword() {
         <Input
           placeholder="Введите код из письма"
           onChange={(e) => handleChange(e)}
-          // @ts-ignore
-
           value={values.resetToken}
           name="resetToken"
         />

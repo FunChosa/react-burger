@@ -40,8 +40,7 @@ const Modal = (props: TModal) => {
       </div>
       <ModalOverlay closeModal={props.onClose} />
     </>,
-    // @ts-ignore
-    document.getElementById("modals")
+    document.getElementById("modals")!
   );
 };
 

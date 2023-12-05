@@ -11,7 +11,7 @@ import IIngredientType from "../../utils/prop-types";
 function BurgerIngredient({ item }: { item: IIngredientType }) {
   const location = useLocation();
   const ingredientId = item._id;
-  const { counts, bun }: any = useSelector(
+  const { counts, bun }: { counts: any; bun: any } = useSelector(
     (store: any) => store.constructorIngrediens
   );
 

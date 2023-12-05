@@ -50,7 +50,7 @@ const BurgerConstructorIngredients = ({
     hover: (item: { index: number }, monitor: any) => {
       const dragIndex = item.index;
       const hoverIndex = index;
-      // @ts-ignore
+
       const hoverBoundingRect = ref.current?.getBoundingClientRect() as DOMRect;
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
@@ -66,7 +66,7 @@ const BurgerConstructorIngredients = ({
     },
   });
 
-  const ref = useRef(null);
+  const ref = useRef<HTMLLIElement>(null);
   const dragDropRef = dragRef(dropRef(ref));
   const opacity = isDragging ? 0 : 1;
 
@@ -88,10 +88,5 @@ const BurgerConstructorIngredients = ({
     </li>
   );
 };
-
-// BurgerConstructorIngredients.propTypes = {
-//   item: ingredientType.isRequired,
-//   index: PropTypes.number.isRequired,
-// };
 
 export default BurgerConstructorIngredients;

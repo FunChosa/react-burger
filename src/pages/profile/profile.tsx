@@ -64,126 +64,120 @@ function Profile() {
     dispatch(logout() as any);
   };
 
-  return (
-    isUserLoaded && (
-      <section className={cn(style.section, "mt-20")}>
-        <div className={cn(style.navigation, "mt-20")}>
-          <NavLink
-            className={cn("mb-6", style.link)}
-            to={paths.profile}
-            // @ts-ignore
-            activeclassname={style.active}
-          >
-            <p
-              className={cn(
-                `text text_type_main-medium text_color_${
-                  pathname === "/profile" ? "primary" : "inactive"
-                }`
-              )}
-            >
-              Профиль
-            </p>
-          </NavLink>
-          <NavLink
-            className={cn("mb-6", style.link)}
-            to={paths.orders}
-            // @ts-ignore
-            activeclassname={style.active}
-          >
-            <p
-              className={cn(
-                `text text_type_main-medium text_color_${
-                  pathname === "/profile/orders" ? "primary" : "inactive"
-                }`
-              )}
-            >
-              История заказов
-            </p>
-          </NavLink>
-          <NavLink
-            className={cn("mb-6", style.link)}
-            to={paths.login}
-            // @ts-ignore
-            activeclassname={style.active}
-          >
-            <p
-              className={cn(
-                `text text_type_main-medium text_color_${
-                  pathname === "/exit" ? "primary" : "inactive"
-                }`
-              )}
-              onClick={logoutRequest}
-            >
-              Выход
-            </p>
-          </NavLink>
+  return isUserLoaded ? (
+    <section className={cn(style.section, "mt-20")}>
+      <div className={cn(style.navigation, "mt-20")}>
+        <NavLink
+          className={({ isActive }) =>
+            isActive ? cn("mb-6", style.active) : cn("mb-6", style.link)
+          }
+          to={paths.profile}
+        >
           <p
             className={cn(
-              "text text_type_main-default text_color_inactive",
-              "mt-30"
+              `text text_type_main-medium text_color_${
+                pathname === "/profile" ? "primary" : "inactive"
+              }`
             )}
           >
-            В этом разделе вы можете <br />
-            изменить свои персональные данные
+            Профиль
           </p>
-        </div>
-        <div className={cn(style.inputs_container)}>
-          <div className={cn("mb-6")}>
-            <Input
-              placeholder="Имя"
-              onChange={(e) => {
-                handleChange(e);
-              }}
-              // @ts-ignore
-
-              value={values.name}
-              icon="EditIcon"
-              name={"name"}
-              disabled={isDisabled}
-              onIconClick={() => {
-                setIsDisabled(false);
-              }}
-            />
-          </div>
-          <div className={cn("mb-6")}>
-            <EmailInput
-              placeholder="Логин"
-              onChange={(e) => {
-                handleChange(e);
-              }}
-              name={"email"}
-              // @ts-ignore
-
-              value={values.email}
-              isIcon={true}
-            />
-          </div>
-          <div className={cn("mb-6")}>
-            <PasswordInput
-              onChange={(e) => {
-                handleChange(e);
-              }}
-              // @ts-ignore
-
-              value={values.password}
-              name={"password"}
-              icon="EditIcon"
-            />
-          </div>
-          <div
-            className={cn(style.buttons)}
-            style={isChanged ? { display: "flex" } : { display: "none" }}
+        </NavLink>
+        <NavLink
+          to={paths.orders}
+          className={({ isActive }) =>
+            isActive ? cn("mb-6", style.active) : cn("mb-6", style.link)
+          }
+        >
+          <p
+            className={cn(
+              `text text_type_main-medium text_color_${
+                pathname === "/profile/orders" ? "primary" : "inactive"
+              }`
+            )}
           >
-            <Button htmlType="submit" type="secondary" onClick={resetChanges}>
-              Отменить
-            </Button>
-            <Button htmlType="submit" type="primary" onClick={saveChanges}>
-              Сохранить
-            </Button>
-          </div>
+            История заказов
+          </p>
+        </NavLink>
+        <NavLink
+          to={paths.login}
+          className={({ isActive }) =>
+            isActive ? cn("mb-6", style.active) : cn("mb-6", style.link)
+          }
+        >
+          <p
+            className={cn(
+              `text text_type_main-medium text_color_${
+                pathname === "/exit" ? "primary" : "inactive"
+              }`
+            )}
+            onClick={logoutRequest}
+          >
+            Выход
+          </p>
+        </NavLink>
+        <p
+          className={cn(
+            "text text_type_main-default text_color_inactive",
+            "mt-30"
+          )}
+        >
+          В этом разделе вы можете <br />
+          изменить свои персональные данные
+        </p>
+      </div>
+      <div className={cn(style.inputs_container)}>
+        <div className={cn("mb-6")}>
+          <Input
+            placeholder="Имя"
+            onChange={(e) => {
+              handleChange(e);
+            }}
+            value={values.name}
+            icon="EditIcon"
+            name={"name"}
+            disabled={isDisabled}
+            onIconClick={() => {
+              setIsDisabled(false);
+            }}
+          />
         </div>
-      </section>
-    )
+        <div className={cn("mb-6")}>
+          <EmailInput
+            placeholder="Логин"
+            onChange={(e) => {
+              handleChange(e);
+            }}
+            name={"email"}
+            value={values.email}
+            isIcon={true}
+          />
+        </div>
+        <div className={cn("mb-6")}>
+          <PasswordInput
+            onChange={(e) => {
+              handleChange(e);
+            }}
+            value={values.password}
+            name={"password"}
+            icon="EditIcon"
+          />
+        </div>
+        <div
+          className={cn(style.buttons)}
+          style={isChanged ? { display: "flex" } : { display: "none" }}
+        >
+          <Button htmlType="submit" type="secondary" onClick={resetChanges}>
+            Отменить
+          </Button>
+          <Button htmlType="submit" type="primary" onClick={saveChanges}>
+            Сохранить
+          </Button>
+        </div>
+      </div>
+    </section>
+  ) : (
+    <></>
   );
 }
 
