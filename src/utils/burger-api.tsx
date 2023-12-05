@@ -1,20 +1,24 @@
 import { NORMA_API } from "./data";
 import { getCookie } from "./cookie-handler";
-const checkResponse = (res) => {
+import IIngredientType from "./prop-types";
+const checkResponse = (res: Response) => {
   return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
 
-export async function request(url, options) {
+export async function request(
+  url: RequestInfo | URL,
+  options: RequestInit | undefined
+) {
   const res = await fetch(url, options);
   return checkResponse(res);
 }
 
 export async function getIngredients() {
-  const res = await request(`${NORMA_API}/ingredients`);
+  const res = await request(`${NORMA_API}/ingredients`, {});
   return res;
 }
 
-export async function sentOrder(ingredients) {
+export async function sentOrder(ingredients: IIngredientType[]) {
   const options = {
     method: "POST",
     headers: {
@@ -28,7 +32,7 @@ export async function sentOrder(ingredients) {
   return res;
 }
 // восстановление пароля
-export async function forgotPassword(data) {
+export async function forgotPassword(data: { valueEmail: string }) {
   const options = {
     method: "POST",
     headers: {
@@ -42,7 +46,10 @@ export async function forgotPassword(data) {
   return res;
 }
 // сброс пароля
-export async function resetPassword(data) {
+export async function resetPassword(data: {
+  password: string;
+  resetToken: string;
+}) {
   const options = {
     method: "POST",
     headers: {
@@ -57,7 +64,15 @@ export async function resetPassword(data) {
   return res;
 }
 // регистрация
-export async function registerUser({ email, name, password }) {
+export async function registerUser({
+  email,
+  name,
+  password,
+}: {
+  email: string;
+  name: string;
+  password: string;
+}) {
   const options = {
     method: "POST",
     headers: {
@@ -69,7 +84,13 @@ export async function registerUser({ email, name, password }) {
   return res;
 }
 // авторизация | вход
-export async function loginUser({ email, password }) {
+export async function loginUser({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) {
   const options = {
     method: "POST",
     headers: {
@@ -127,7 +148,15 @@ export async function getUserInfo() {
   return res;
 }
 // обновление информации о пользователе
-export async function updateUserInfo({ name, email, password }) {
+export async function updateUserInfo({
+  name,
+  email,
+  password,
+}: {
+  name: string;
+  email: string;
+  password: string;
+}) {
   const options = {
     method: "PATCH",
     headers: {

@@ -7,13 +7,18 @@ import { useDrop, useDrag } from "react-dnd/dist/hooks";
 import { useRef } from "react";
 import style from "./burger-constructor.module.css";
 import cn from "classnames";
-import { ingredientType } from "../../utils/prop-types";
-import PropTypes from "prop-types";
+import IIngredientType from "../../utils/prop-types";
 
-const BurgerConstructorIngredients = ({ item, index }) => {
+const BurgerConstructorIngredients = ({
+  item,
+  index,
+}: {
+  item: IIngredientType;
+  index: number;
+}) => {
   const dispatch = useDispatch();
 
-  const handleClose = (item) => {
+  const handleClose = (item: IIngredientType) => {
     dispatch({
       type: "DELETE_INGREDIENT",
       itemType: item.type,
@@ -25,7 +30,7 @@ const BurgerConstructorIngredients = ({ item, index }) => {
       itemId: item._id,
     });
   };
-  const moveListItem = (dragIndex, hoverIndex) => {
+  const moveListItem = (dragIndex: number, hoverIndex: number) => {
     dispatch({
       type: "FILTER_INGREDIENTS",
       dragIndex: dragIndex,
@@ -42,10 +47,11 @@ const BurgerConstructorIngredients = ({ item, index }) => {
 
   const [, dropRef] = useDrop({
     accept: "item",
-    hover: (item, monitor) => {
+    hover: (item: { index: number }, monitor: any) => {
       const dragIndex = item.index;
       const hoverIndex = index;
-      const hoverBoundingRect = ref.current?.getBoundingClientRect();
+      // @ts-ignore
+      const hoverBoundingRect = ref.current?.getBoundingClientRect() as DOMRect;
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const hoverActualY = monitor.getClientOffset().y - hoverBoundingRect.top;
@@ -69,6 +75,7 @@ const BurgerConstructorIngredients = ({ item, index }) => {
       className={cn(style.inside__item, "mb-4")}
       key={item.key}
       style={{ opacity }}
+      // @ts-ignore
       ref={dragDropRef}
     >
       <DragIcon type="primary" />
@@ -82,9 +89,9 @@ const BurgerConstructorIngredients = ({ item, index }) => {
   );
 };
 
-BurgerConstructorIngredients.propTypes = {
-  item: ingredientType.isRequired,
-  index: PropTypes.number.isRequired,
-};
+// BurgerConstructorIngredients.propTypes = {
+//   item: ingredientType.isRequired,
+//   index: PropTypes.number.isRequired,
+// };
 
 export default BurgerConstructorIngredients;

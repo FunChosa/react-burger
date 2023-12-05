@@ -1,7 +1,6 @@
 import cn from "classnames";
 import style from "./ingredient-details.module.css";
-import PropTypes from "prop-types";
-function NutritionValue({ title, value }) {
+function NutritionValue({ title, value }: { title: string; value: number }) {
   return (
     <div className={cn(style.ingredient__nutrition__value__item)}>
       <div className={cn("text text_type_main-default text_color_inactive")}>
@@ -19,10 +18,5 @@ function NutritionValue({ title, value }) {
     </div>
   );
 }
-
-NutritionValue.propTypes = {
-  title: PropTypes.string.isRequired,
-  value: PropTypes.number.isRequired,
-};
 
 export default NutritionValue;

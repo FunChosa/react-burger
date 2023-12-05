@@ -15,16 +15,16 @@ import { useForm } from "../../hooks/useForm";
 function ForgotPassword() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isForgotPasswordSuccess = useSelector((state) => {
+  const isForgotPasswordSuccess = useSelector((state: any) => {
     return state.user.forgotPasswordSuccess;
   });
   const { values, handleChange } = useForm({
     email: "",
   });
-  const forgotPassword = ({ valueEmail }) => {
-    return (e) => {
+  const forgotPassword = ({ valueEmail }: { valueEmail: string }) => {
+    return (e: { preventDefault: () => void }) => {
       e.preventDefault();
-      dispatch(forgotPasswordRequest({ valueEmail }));
+      dispatch(forgotPasswordRequest({ valueEmail }) as any);
       localStorage.setItem("forgotPasswordEmail", valueEmail);
     };
   };
@@ -37,6 +37,7 @@ function ForgotPassword() {
   return (
     <form
       className={cn(style.container, "mt-20")}
+      // @ts-ignore
       onSubmit={forgotPassword({ valueEmail: values.email })}
     >
       <p className={cn("text text_type_main-medium", "mb-6")}>
@@ -46,7 +47,7 @@ function ForgotPassword() {
         <EmailInput
           placeholder="Укажите e-mail"
           onChange={(e) => handleChange(e)}
-          value={values.email}
+          value={values.email || ""}
           name="email"
         />
       </div>

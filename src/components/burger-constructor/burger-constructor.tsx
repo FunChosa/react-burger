@@ -12,21 +12,28 @@ import BurgerConstructorIngredients from "./burger-constructor-ingredients";
 import { v4 as uuidv4 } from "uuid";
 import { getCookie } from "../../utils/cookie-handler";
 import { useNavigate } from "react-router-dom";
+import IIngredientType from "../../utils/prop-types";
 
 const BurgerConstructor = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { bun, ingredients } = useSelector(
-    (state) => state.constructorIngrediens
+  const { bun, ingredients }: any = useSelector(
+    (state: any) => state.constructorIngrediens
   );
 
   const createOrder = () => {
     const token =
       getCookie("accessToken") || localStorage.getItem("refreshToken");
-    !token ? navigate("/login") : dispatch(postOrderRequest(ingredients));
+
+    !token
+      ? navigate("/login")
+      : dispatch(postOrderRequest(ingredients) as any);
   };
 
-  const totalAmount = (ingredients, bun) => {
+  const totalAmount = (
+    ingredients: IIngredientType[],
+    bun: IIngredientType
+  ) => {
     const totalIngredientsPrice = ingredients.reduce(
       (acc, item) => acc + item.price,
       0
@@ -38,7 +45,7 @@ const BurgerConstructor = () => {
 
   const [, dropTarget] = useDrop({
     accept: "ingredient",
-    drop(item) {
+    drop(item: IIngredientType) {
       dispatch({ type: "ADD_INGREDIENT", item: item, key: uuidv4() });
       dispatch({
         type: "INCREASE_COUNTER",
@@ -65,7 +72,7 @@ const BurgerConstructor = () => {
         </section>
       )}
       <ul className={style.list__of__items}>
-        {ingredients.map((item, index) => (
+        {ingredients.map((item: IIngredientType, index: number) => (
           <BurgerConstructorIngredients
             item={item}
             index={index}

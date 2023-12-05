@@ -20,8 +20,12 @@ import { useForm } from "../../hooks/useForm";
 function Profile() {
   const { pathname } = useLocation();
   const dispatch = useDispatch();
-  const currentUserName = useSelector((state) => state.user.user.name);
-  const currentUserEmail = useSelector((state) => state.user.user.email);
+  const currentUserName: string = useSelector(
+    (state: any) => state.user.user.name
+  );
+  const currentUserEmail: string = useSelector(
+    (state: any) => state.user.user.email
+  );
   const { values, handleChange, setValues, isChanged, setIsChanged } = useForm({
     name: currentUserName,
     email: currentUserEmail,
@@ -31,12 +35,12 @@ function Profile() {
   const [isUserLoaded, setIsUserLoaded] = useState(false);
 
   useEffect(() => {
-    dispatch(getUserInfoRequest()).then(() => {
+    dispatch(getUserInfoRequest() as any).then(() => {
       setIsUserLoaded(true);
     });
   }, [dispatch]);
   const saveChanges = () => {
-    dispatch(updateUserInfoRequest({ ...values })).then(() => {
+    dispatch(updateUserInfoRequest({ ...values } as any) as any).then(() => {
       setIsChanged(false);
     });
   };
@@ -57,7 +61,7 @@ function Profile() {
     setIsChanged(false);
   };
   const logoutRequest = () => {
-    dispatch(logout());
+    dispatch(logout() as any);
   };
 
   return (
@@ -67,6 +71,7 @@ function Profile() {
           <NavLink
             className={cn("mb-6", style.link)}
             to={paths.profile}
+            // @ts-ignore
             activeclassname={style.active}
           >
             <p
@@ -82,6 +87,7 @@ function Profile() {
           <NavLink
             className={cn("mb-6", style.link)}
             to={paths.orders}
+            // @ts-ignore
             activeclassname={style.active}
           >
             <p
@@ -97,6 +103,7 @@ function Profile() {
           <NavLink
             className={cn("mb-6", style.link)}
             to={paths.login}
+            // @ts-ignore
             activeclassname={style.active}
           >
             <p
@@ -127,6 +134,8 @@ function Profile() {
               onChange={(e) => {
                 handleChange(e);
               }}
+              // @ts-ignore
+
               value={values.name}
               icon="EditIcon"
               name={"name"}
@@ -143,6 +152,8 @@ function Profile() {
                 handleChange(e);
               }}
               name={"email"}
+              // @ts-ignore
+
               value={values.email}
               isIcon={true}
             />
@@ -152,6 +163,8 @@ function Profile() {
               onChange={(e) => {
                 handleChange(e);
               }}
+              // @ts-ignore
+
               value={values.password}
               name={"password"}
               icon="EditIcon"
