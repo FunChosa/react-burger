@@ -13,7 +13,10 @@ export function getCookie(name: string) {
 export function setCookie(
   name: string,
   value: string,
-  props: { [x: string]: any; expires?: any } | undefined
+  props?: {
+    expires?: number | Date | string;
+    [key: string]: any;
+  }
 ) {
   props = props || {};
   let exp = props.expires;

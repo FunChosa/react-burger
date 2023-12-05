@@ -25,8 +25,7 @@ function App() {
     const background = location.state && location.state.background;
 
     useEffect(() => {
-      // @ts-ignore
-      dispatch(getData());
+      dispatch(getData() as any);
     }, [dispatch]);
 
     const handleModalClose = useCallback(() => {
@@ -77,7 +76,6 @@ function App() {
           />
           <Route
             path={paths.profile}
-            // @ts-ignore
             element={<ProtectedRouteElement element={<Profile />} />}
           />
           <Route

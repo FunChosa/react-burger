@@ -44,8 +44,6 @@ function Register() {
         <Input
           placeholder="Имя"
           onChange={(e) => handleChange(e)}
-          // @ts-ignore
-
           value={values.name}
           name="name"
         />
@@ -54,7 +52,6 @@ function Register() {
         <EmailInput
           placeholder="Укажите e-mail"
           onChange={(e) => handleChange(e)}
-          // @ts-ignore
           value={values.email}
           name="email"
         />
@@ -62,8 +59,6 @@ function Register() {
       <div className={cn("mb-6")}>
         <PasswordInput
           onChange={(e) => handleChange(e)}
-          // @ts-ignore
-
           value={values.password}
           name="password"
         />

@@ -16,7 +16,7 @@ function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
-  const isLoginSuccess = useSelector((state: any) => {
+  const isLoginSuccess: boolean = useSelector((state: any) => {
     return state.user.loginSuccess;
   });
 
@@ -44,7 +44,6 @@ function Login() {
         <EmailInput
           placeholder="Укажите e-mail"
           onChange={(e) => handleChange(e)}
-          // @ts-ignores
           value={values.email}
           name="email"
         />
@@ -52,7 +51,6 @@ function Login() {
       <div className={cn("mb-6")}>
         <PasswordInput
           onChange={(e) => handleChange(e)}
-          // @ts-ignores
           value={values.password}
           name="password"
         />

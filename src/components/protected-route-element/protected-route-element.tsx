@@ -17,8 +17,7 @@ function ProtectedRouteElement({
   const dispatch = useDispatch();
   const [isUserLoaded, setIsUserLoaded] = useState(false);
   useEffect(() => {
-    // @ts-ignore
-    dispatch(getUserInfoRequest()).then(() => {
+    dispatch(getUserInfoRequest() as any).then(() => {
       setIsUserLoaded(true);
     });
   }, [dispatch]);

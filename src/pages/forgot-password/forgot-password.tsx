@@ -15,7 +15,7 @@ import { useForm } from "../../hooks/useForm";
 function ForgotPassword() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isForgotPasswordSuccess = useSelector((state: any) => {
+  const isForgotPasswordSuccess: boolean = useSelector((state: any) => {
     return state.user.forgotPasswordSuccess;
   });
   const { values, handleChange } = useForm({
@@ -37,7 +37,6 @@ function ForgotPassword() {
   return (
     <form
       className={cn(style.container, "mt-20")}
-      // @ts-ignore
       onSubmit={forgotPassword({ valueEmail: values.email })}
     >
       <p className={cn("text text_type_main-medium", "mb-6")}>

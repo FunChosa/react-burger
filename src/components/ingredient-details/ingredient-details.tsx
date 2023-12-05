@@ -3,12 +3,13 @@ import cn from "classnames";
 import NutritionValue from "./nutrition-value";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import IIngredientType from "../../utils/prop-types";
 function IngredientDetails() {
   const { ingredientId } = useParams();
-  const ingredient: any = useSelector((state: any) => {
+  const ingredient: IIngredientType = useSelector((state: any) => {
     if (ingredientId) {
       return state.allIngredients.allIngredients.find(
-        (item: any) => item._id === ingredientId
+        (item: IIngredientType) => item._id === ingredientId
       );
     } else {
       return state.ingredientDetails.ingredient;
