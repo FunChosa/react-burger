@@ -17,16 +17,18 @@ import { useForm } from "../../hooks/useForm";
 function Register() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isRegisterSuccess = useSelector((state) => state.user.registerSuccess);
+  const isRegisterSuccess: boolean = useSelector(
+    (state: any) => state.user.registerSuccess
+  );
   const { values, handleChange } = useForm({
     email: "",
     name: "",
     password: "",
   });
 
-  const registerUser = (e) => {
+  const registerUser = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    dispatch(register({ ...values }));
+    dispatch(register({ ...values } as any) as any);
   };
 
   useEffect(() => {
@@ -42,6 +44,8 @@ function Register() {
         <Input
           placeholder="Имя"
           onChange={(e) => handleChange(e)}
+          // @ts-ignore
+
           value={values.name}
           name="name"
         />
@@ -50,6 +54,7 @@ function Register() {
         <EmailInput
           placeholder="Укажите e-mail"
           onChange={(e) => handleChange(e)}
+          // @ts-ignore
           value={values.email}
           name="email"
         />
@@ -57,6 +62,8 @@ function Register() {
       <div className={cn("mb-6")}>
         <PasswordInput
           onChange={(e) => handleChange(e)}
+          // @ts-ignore
+
           value={values.password}
           name="password"
         />

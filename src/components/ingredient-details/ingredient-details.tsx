@@ -5,10 +5,10 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 function IngredientDetails() {
   const { ingredientId } = useParams();
-  const ingredient = useSelector((state) => {
+  const ingredient: any = useSelector((state: any) => {
     if (ingredientId) {
       return state.allIngredients.allIngredients.find(
-        (item) => item._id === ingredientId
+        (item: any) => item._id === ingredientId
       );
     } else {
       return state.ingredientDetails.ingredient;

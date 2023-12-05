@@ -16,7 +16,7 @@ function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
-  const isLoginSuccess = useSelector((state) => {
+  const isLoginSuccess = useSelector((state: any) => {
     return state.user.loginSuccess;
   });
 
@@ -25,9 +25,9 @@ function Login() {
     password: "",
   });
 
-  const loginForm = (e) => {
+  const loginForm = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    dispatch(login({ ...values })).then(() => {});
+    dispatch(login({ ...values } as any) as any).then(() => {});
   };
 
   useEffect(() => {
@@ -44,6 +44,7 @@ function Login() {
         <EmailInput
           placeholder="Укажите e-mail"
           onChange={(e) => handleChange(e)}
+          // @ts-ignores
           value={values.email}
           name="email"
         />
@@ -51,6 +52,7 @@ function Login() {
       <div className={cn("mb-6")}>
         <PasswordInput
           onChange={(e) => handleChange(e)}
+          // @ts-ignores
           value={values.password}
           name="password"
         />
