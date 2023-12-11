@@ -12,7 +12,7 @@ import BurgerConstructorIngredients from "./burger-constructor-ingredients";
 import { v4 as uuidv4 } from "uuid";
 import { getCookie } from "../../utils/cookie-handler";
 import { useNavigate } from "react-router-dom";
-import IIngredientType from "../../utils/prop-types";
+import { IIngredientType } from "../../utils/types";
 
 const BurgerConstructor = () => {
   const navigate = useNavigate();

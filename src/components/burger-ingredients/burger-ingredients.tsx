@@ -6,7 +6,7 @@ import IngredientsCategory from "./ingredients-category";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useInView } from "react-intersection-observer";
 import { useEffect, useMemo } from "react";
-import IIngredientType from "../../utils/prop-types";
+import { IIngredientType } from "../../utils/types";
 function BurgerIngredients() {
   const data: IIngredientType[] = useSelector(
     (state: any) => state.allIngredients.allIngredients

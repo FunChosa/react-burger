@@ -3,7 +3,7 @@ import cn from "classnames";
 import NutritionValue from "./nutrition-value";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import IIngredientType from "../../utils/prop-types";
+import { IIngredientType } from "../../utils/types";
 function IngredientDetails() {
   const { ingredientId } = useParams();
   const ingredient: IIngredientType = useSelector((state: any) => {

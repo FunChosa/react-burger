@@ -1,7 +1,7 @@
 import BurgerIngredient from "./burger-ingredient";
 import style from "./burger-ingredients.module.css";
 import cn from "classnames";
-import IIngredientType from "../../utils/prop-types";
+import { IIngredientType } from "../../utils/types";
 function IngredientsCategory({
   text,
   itemsByType,

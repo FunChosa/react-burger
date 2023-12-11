@@ -7,7 +7,7 @@ import { useDrop, useDrag } from "react-dnd/dist/hooks";
 import { useRef } from "react";
 import style from "./burger-constructor.module.css";
 import cn from "classnames";
-import IIngredientType from "../../utils/prop-types";
+import { IIngredientType } from "../../utils/types";
 
 const BurgerConstructorIngredients = ({
   item,
@@ -67,7 +67,7 @@ const BurgerConstructorIngredients = ({
   });
 
   const ref = useRef<HTMLLIElement>(null);
-  const dragDropRef = dragRef(dropRef(ref));
+  dragRef(dropRef(ref));
   const opacity = isDragging ? 0 : 1;
 
   return (
@@ -75,8 +75,7 @@ const BurgerConstructorIngredients = ({
       className={cn(style.inside__item, "mb-4")}
       key={item.key}
       style={{ opacity }}
-      // @ts-ignore
-      ref={dragDropRef}
+      ref={ref}
     >
       <DragIcon type="primary" />
       <ConstructorElement
