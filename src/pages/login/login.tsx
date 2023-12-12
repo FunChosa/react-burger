@@ -16,7 +16,7 @@ function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
-  const isLoginSuccess = useSelector((state) => {
+  const isLoginSuccess: boolean = useSelector((state: any) => {
     return state.user.loginSuccess;
   });
 
@@ -25,9 +25,9 @@ function Login() {
     password: "",
   });
 
-  const loginForm = (e) => {
+  const loginForm = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    dispatch(login({ ...values })).then(() => {});
+    dispatch(login({ ...values } as any) as any).then(() => {});
   };
 
   useEffect(() => {

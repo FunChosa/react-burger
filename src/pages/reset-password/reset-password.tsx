@@ -15,16 +15,16 @@ import { useForm } from "../../hooks/useForm";
 function ResetPassword() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isResetPasswordSuccess = useSelector(
-    (state) => state.user.resetPasswordSuccess
+  const isResetPasswordSuccess: boolean = useSelector(
+    (state: any) => state.user.resetPasswordSuccess
   );
   const { values, handleChange } = useForm({
     password: "",
     resetToken: "",
   });
-  const resetPassword = (e) => {
+  const resetPassword = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    dispatch(resetPasswordRequest({ ...values }));
+    dispatch(resetPasswordRequest({ ...values } as any) as any);
   };
   useEffect(() => {
     if (isResetPasswordSuccess) {

@@ -17,16 +17,18 @@ import { useForm } from "../../hooks/useForm";
 function Register() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isRegisterSuccess = useSelector((state) => state.user.registerSuccess);
+  const isRegisterSuccess: boolean = useSelector(
+    (state: any) => state.user.registerSuccess
+  );
   const { values, handleChange } = useForm({
     email: "",
     name: "",
     password: "",
   });
 
-  const registerUser = (e) => {
+  const registerUser = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    dispatch(register({ ...values }));
+    dispatch(register({ ...values } as any) as any);
   };
 
   useEffect(() => {

@@ -4,14 +4,16 @@ import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { ingredientType } from "../../utils/prop-types";
 import { useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
 import { Link, useLocation } from "react-router-dom";
-function BurgerIngredient({ item }) {
+import { IIngredientType } from "../../utils/types";
+function BurgerIngredient({ item }: { item: IIngredientType }) {
   const location = useLocation();
   const ingredientId = item._id;
-  const { counts, bun } = useSelector((store) => store.constructorIngrediens);
+  const { counts, bun }: { counts: any; bun: any } = useSelector(
+    (store: any) => store.constructorIngrediens
+  );
 
   const count =
     item.type === "bun" && bun && bun._id === item._id ? 2 : counts[item._id];
@@ -69,9 +71,4 @@ function BurgerIngredient({ item }) {
     </Link>
   );
 }
-
-BurgerIngredient.propTypes = {
-  item: ingredientType.isRequired,
-};
-
 export default BurgerIngredient;

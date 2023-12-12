@@ -10,12 +10,14 @@ import Preloader from "../../components/preloader/preloader";
 import { useDispatch } from "react-redux";
 export default function Main() {
   const dispatch = useDispatch();
-  const { allIngredientsRequest, allIngredientsFailed } = useSelector(
-    (state) => state.allIngredients
-  );
+  const {
+    allIngredientsRequest,
+    allIngredientsFailed,
+  }: { allIngredientsRequest: boolean; allIngredientsFailed: boolean } =
+    useSelector((state: any) => state.allIngredients);
 
-  const isOrderDetailsModalOpen = useSelector(
-    (state) => state.orderDetails.isModalActive
+  const isOrderDetailsModalOpen: boolean = useSelector(
+    (state: any) => state.orderDetails.isModalActive
   );
   const handleOrderDetailsModalClose = () => {
     dispatch({ type: "CLOSE_MODAL_ORDER_DETAILS" });

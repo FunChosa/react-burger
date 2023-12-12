@@ -1,4 +1,4 @@
-import { sentOrder } from "../../utils/burger-api"; // отправка заказа
+import { sendOrder } from "../../utils/burger-api"; // отправка заказа
 export const POST_ORDER_REQUEST = "POST_ORDER_REQUEST"; // запрос
 export const POST_ORDER_SUCCESS = "POST_ORDER_SUCCESS"; // успешный
 export const POST_ORDER_ERROR = "POST_ORDER_ERROR"; // неуспешный
@@ -8,7 +8,7 @@ export const RESET_INGREDIENTS = "RESET_INGREDIENTS";
 export const postOrderRequest = (ingredients) => async (dispatch) => {
   dispatch({ type: POST_ORDER_REQUEST });
   try {
-    const res = await sentOrder(ingredients);
+    const res = await sendOrder(ingredients);
     if (res && res.success) {
       dispatch({ type: POST_ORDER_SUCCESS, number: res.order.number });
       dispatch({ type: OPEN_MODAL_ORDER_DETAILS });

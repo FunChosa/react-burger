@@ -6,13 +6,18 @@ import IngredientsCategory from "./ingredients-category";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useInView } from "react-intersection-observer";
 import { useEffect, useMemo } from "react";
+import { IIngredientType } from "../../utils/types";
 function BurgerIngredients() {
-  const data = useSelector((state) => state.allIngredients.allIngredients);
+  const data: IIngredientType[] = useSelector(
+    (state: any) => state.allIngredients.allIngredients
+  );
 
   const [buns, sauces, mains] = useMemo(() => {
-    const buns = data.filter((item) => item.type === "bun");
-    const sauces = data.filter((item) => item.type === "sauce");
-    const mains = data.filter((item) => item.type === "main");
+    const buns = data.filter((item: IIngredientType) => item.type === "bun");
+    const sauces = data.filter(
+      (item: IIngredientType) => item.type === "sauce"
+    );
+    const mains = data.filter((item: IIngredientType) => item.type === "main");
     return [buns, sauces, mains];
   }, [data]);
 

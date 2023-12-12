@@ -1,6 +1,10 @@
 .link {
   text-decoration: none;
 }
+.active {
+  text-decoration: none;
+  color: white;
+}
 .inputs_container {
   display: flex;
   flex-direction: column;
