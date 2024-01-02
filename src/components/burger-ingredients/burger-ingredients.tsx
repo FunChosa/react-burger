@@ -7,9 +7,10 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useInView } from "react-intersection-observer";
 import { useEffect, useMemo } from "react";
 import { IIngredientType } from "../../utils/types";
+import { TRootState } from "../../services/reducers/root-reducer";
 function BurgerIngredients() {
   const data: IIngredientType[] = useSelector(
-    (state: any) => state.allIngredients.allIngredients
+    (state: TRootState) => state.allIngredients.allIngredients
   );
 
   const [buns, sauces, mains] = useMemo(() => {

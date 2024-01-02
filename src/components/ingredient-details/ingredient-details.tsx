@@ -4,17 +4,18 @@ import NutritionValue from "./nutrition-value";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { IIngredientType } from "../../utils/types";
+import { TRootState } from "../../services/reducers/root-reducer";
 function IngredientDetails() {
   const { ingredientId } = useParams();
-  const ingredient: IIngredientType = useSelector((state: any) => {
-    if (ingredientId) {
-      return state.allIngredients.allIngredients.find(
-        (item: IIngredientType) => item._id === ingredientId
+  const ingredient: IIngredientType | null = useSelector(
+    (state: TRootState) => {
+      return (
+        state.allIngredients.allIngredients.find(
+          (item: IIngredientType) => item._id === ingredientId
+        ) || null
       );
-    } else {
-      return state.ingredientDetails.ingredient;
     }
-  });
+  );
   return (
     ingredient && (
       <div

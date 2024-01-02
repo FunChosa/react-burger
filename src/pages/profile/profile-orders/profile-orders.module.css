@@ -1,0 +1,24 @@
+.body__container {
+  min-width: 600px;
+  height: 800px;
+  box-sizing: border-box;
+  max-width: 1320px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+}
+.boxes__container__scroll {
+  overflow-y: scroll;
+}
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #2f2f37;
+}
+::-webkit-scrollbar-thumb {
+  background: #8585ad;
+  margin-left: 20px;
+}

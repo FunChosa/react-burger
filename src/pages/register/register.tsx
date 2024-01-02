@@ -8,17 +8,18 @@ import style from "./register.module.css";
 import cn from "classnames";
 import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { register } from "../../services/actions/user-actions";
+import { registerUserAction } from "../../services/actions/user-actions/register-user-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { paths } from "../../utils/paths";
 import { useForm } from "../../hooks/useForm";
+import { TRootState } from "../../services/reducers/root-reducer";
 
 function Register() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isRegisterSuccess: boolean = useSelector(
-    (state: any) => state.user.registerSuccess
+    (state: TRootState) => state.user.registerSuccess
   );
   const { values, handleChange } = useForm({
     email: "",
@@ -28,7 +29,9 @@ function Register() {
 
   const registerUser = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    dispatch(register({ ...values } as any) as any);
+    dispatch(
+      registerUserAction(values.email, values.name, values.password) as any
+    );
   };
 
   useEffect(() => {

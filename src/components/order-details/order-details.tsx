@@ -1,54 +1,132 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router";
+import Preloader from "../preloader/preloader";
+import { IIngredientType, TOrders } from "../../utils/types";
 import style from "./order-details.module.css";
+
 import cn from "classnames";
-import done from "../../images/done.svg";
-import { useSelector } from "react-redux";
+import {
+  addCountToObjects,
+  burgerIngredientsFunction,
+  formatDate,
+  totalPrice,
+} from "../../utils/functions";
+import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { TRootState } from "../../services/reducers/root-reducer";
+export default function OrderDetails() {
+  const { id } = useParams();
+  const dispatch = useDispatch();
 
-const OrderDetails = () => {
-  const modalText = {
-    orderIdentifier: "идентификатор заказа",
-    title: "Ваш заказ начали готовить",
-    subtitle: "Дождитесь готовности на орбитальной станции",
-  };
+  useEffect(() => {
+    dispatch({ type: "WS_CONNECTION_START" });
+    return () => {
+      dispatch({ type: "WS_CONNECTION_CLOSED" });
+    };
+  }, [dispatch]);
 
-  const orderNumber: number = useSelector(
-    (state: any) => state.orderDetails.orderNumber
+  const data: IIngredientType[] = useSelector(
+    (state: TRootState) => state.allIngredients.allIngredients
+  );
+  const { orders } = useSelector((store: { ws: TOrders }) => store.ws);
+  const currentOrder = orders.find((order) => order.number === Number(id));
+  const currentOrderIngredients = currentOrder?.ingredients
+    ? burgerIngredientsFunction(currentOrder.ingredients, data)
+    : [];
+  const currentOrderIngredientsCount = addCountToObjects(
+    currentOrderIngredients
   );
 
+  if (!currentOrder) {
+    return <Preloader />;
+  }
   return (
-    <div className={cn(style.order__details__container, "mt-10")}>
-      <h2
+    <div className={cn(style.order__details__container, "mt-10, mb-10")}>
+      <p
         className={cn(
-          style.order__details__title,
-          "text",
-          "text_type_digits-large",
-          "mb-2"
+          "text text_type_digits-default text_color_inactive",
+          "mb-10"
         )}
       >
-        {orderNumber}
-      </h2>
-      <p className={cn("text", "text_type_main-medium", "mb-15")}>
-        {modalText.orderIdentifier}
-      </p>
-      <img
-        className={cn(style.order__details__image, "mb-15")}
-        src={done}
-        alt="done"
-      />
-      <p className={cn("text", "text_type_main-default", "mb-2")}>
-        {modalText.title}
+        #{currentOrder.number}
       </p>
       <p
         className={cn(
-          "text",
-          "text_type_main-default",
-          "text_color_inactive",
-          "mb-30"
+          style.order__details__title,
+          "text text_type_main-medium",
+          "mb-3 pl-2 pr-2"
         )}
       >
-        {modalText.subtitle}
+        {currentOrder.name}
       </p>
+      <p
+        className={cn("text text_type_main-default", "mb-15")}
+        style={
+          currentOrder.status === "created"
+            ? { color: "#00CCCC" }
+            : currentOrder.status === "pending"
+            ? { color: "#F2C94C" }
+            : { color: "#00CCCC" }
+        }
+      >
+        {currentOrder.status === "created"
+          ? "Создан"
+          : currentOrder.status === "pending"
+          ? "Готовится"
+          : "Выполнен"}
+      </p>
+      <p className={cn("text text_type_main-medium", "mb-4")}>Состав:</p>
+      <div className={cn(style.boxes__container__scroll, "mb-10, pt-2, pr-6")}>
+        {currentOrderIngredientsCount.map((ingredient: IIngredientType) => (
+          <div
+            className={cn(style.ingredient__container, "mb-3")}
+            key={ingredient._id}
+          >
+            <div className={cn(style.ingredient__info, "mr-6")}>
+              <div className={cn(style.image__mobile, "mr-4")}>
+                <img src={ingredient.image_mobile} alt={ingredient.name} />
+              </div>
+              <p
+                className={cn(
+                  style.ingredient__title,
+                  "text text_type_main-small"
+                )}
+              >
+                {ingredient.name}
+              </p>
+            </div>
+            <p
+              className={cn(
+                style.price__text,
+
+                "text text_type_digits-default"
+              )}
+            >
+              {ingredient.count} x {ingredient.price}
+              <span className={cn("ml-2")}>
+                <CurrencyIcon type="primary" />
+              </span>
+            </p>
+          </div>
+        ))}
+      </div>
+      <div className={cn(style.price__and__date, "mt-5")}>
+        <p className={cn("text text_type_main-default text_color_inactive")}>
+          {formatDate(new Date(currentOrder.createdAt))}
+        </p>
+        <p
+          className={cn(
+            style.price__text,
+            "text text_type_digits-medium",
+            "mb-2"
+          )}
+        >
+          {totalPrice(currentOrder.ingredients, data)}
+          <span className={cn("ml-2")}>
+            <CurrencyIcon type="primary" />
+          </span>
+        </p>
+      </div>
     </div>
   );
-};
-
-export default OrderDetails;
+}

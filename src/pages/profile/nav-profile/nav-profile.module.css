@@ -1,0 +1,12 @@
+.navigation {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+}
+.active {
+  text-decoration: none;
+  color: white;
+}
+.link {
+  text-decoration: none;
+}

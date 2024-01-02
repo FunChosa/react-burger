@@ -13,13 +13,16 @@ import { v4 as uuidv4 } from "uuid";
 import { getCookie } from "../../utils/cookie-handler";
 import { useNavigate } from "react-router-dom";
 import { IIngredientType } from "../../utils/types";
+import Preloader from "../preloader/preloader";
+import { TRootState } from "../../services/reducers/root-reducer";
 
 const BurgerConstructor = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { bun, ingredients }: any = useSelector(
-    (state: any) => state.constructorIngrediens
-  );
+  const { bun, ingredients }: { bun: any; ingredients: IIngredientType[] } =
+    useSelector((state: TRootState) => state.constructorIngrediens);
+
+  const allIngredients = [bun, ...ingredients, bun];
 
   const createOrder = () => {
     const token =
@@ -27,7 +30,7 @@ const BurgerConstructor = () => {
 
     !token
       ? navigate("/login")
-      : dispatch(postOrderRequest(ingredients) as any);
+      : dispatch(postOrderRequest(allIngredients) as any);
   };
 
   const totalAmount = (
@@ -58,6 +61,12 @@ const BurgerConstructor = () => {
     }),
   });
 
+  const { orderRequest } = useSelector(
+    (state: TRootState) => state.orderDetails
+  );
+  if (orderRequest) {
+    return <Preloader text="Создание заказа..." />;
+  }
   return (
     <div className={cn(style.body__container, "mt-25")} ref={dropTarget}>
       {Object.entries(bun).length !== 0 && (

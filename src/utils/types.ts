@@ -1,3 +1,5 @@
+import { wsActions } from "../services/actions/ws-actions";
+import { wsActionsAuth } from "../services/actions/ws-auth-actions";
 export interface IIngredientType {
   _id: string;
   name: string;
@@ -12,6 +14,7 @@ export interface IIngredientType {
   image_large: string;
   __v: number;
   key?: string;
+  count?: number;
 }
 export interface IOrder {
   name: string;
@@ -41,7 +44,7 @@ export interface IRegisterUser {
   accessToken: string;
   refreshToken: string;
 }
-export interface ILoginUser {
+export interface ISuccessLoginUser {
   success: boolean;
   user: {
     email: string;
@@ -73,3 +76,19 @@ export interface IUserUpdateInfo {
     name: string;
   };
 }
+export type TOrder = {
+  createdAt: string;
+  ingredients: Array<string>;
+  name: string;
+  number: number;
+  status?: string;
+  updatedAt?: string;
+  _id?: string;
+  path?: string;
+};
+export type TOrders = {
+  orders: Array<TOrder>;
+  total: number;
+  totalToday: number;
+};
+export type TWSAction = typeof wsActions | typeof wsActionsAuth;

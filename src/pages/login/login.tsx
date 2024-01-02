@@ -7,16 +7,17 @@ import style from "./login.module.css";
 import cn from "classnames";
 import { useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { login } from "../../services/actions/user-actions";
+import { loginUserAction } from "../../services/actions/user-actions/login-user-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { paths } from "../../utils/paths";
 import { useForm } from "../../hooks/useForm";
+import { TRootState } from "../../services/reducers/root-reducer";
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
-  const isLoginSuccess: boolean = useSelector((state: any) => {
+  const isLoginSuccess: boolean = useSelector((state: TRootState) => {
     return state.user.loginSuccess;
   });
 
@@ -27,7 +28,9 @@ function Login() {
 
   const loginForm = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    dispatch(login({ ...values } as any) as any).then(() => {});
+    dispatch(loginUserAction(values.email, values.password) as any).then(
+      () => {}
+    );
   };
 
   useEffect(() => {

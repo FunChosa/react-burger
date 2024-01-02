@@ -8,12 +8,12 @@ import { useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
 import { Link, useLocation } from "react-router-dom";
 import { IIngredientType } from "../../utils/types";
+import { TRootState } from "../../services/reducers/root-reducer";
 function BurgerIngredient({ item }: { item: IIngredientType }) {
   const location = useLocation();
   const ingredientId = item._id;
-  const { counts, bun }: { counts: any; bun: any } = useSelector(
-    (store: any) => store.constructorIngrediens
-  );
+  const { counts, bun }: { counts: { [key: string]: number }; bun: any } =
+    useSelector((store: TRootState) => store.constructorIngrediens);
 
   const count =
     item.type === "bun" && bun && bun._id === item._id ? 2 : counts[item._id];

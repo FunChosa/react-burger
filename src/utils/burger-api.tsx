@@ -7,7 +7,7 @@ import {
   IForgotPassword,
   IResetPassword,
   IRegisterUser,
-  ILoginUser,
+  ISuccessLoginUser,
   ILogoutUser,
   IRefreshToken,
   IUserGetInfo,
@@ -33,9 +33,11 @@ export async function getIngredients(): Promise<IIngredients> {
 export async function sendOrder(
   ingredients: IIngredientType[]
 ): Promise<IOrder> {
+  const accessToken = getCookie("accessToken");
   const options = {
     method: "POST",
     headers: {
+      Authorization: `Bearer ${accessToken}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
@@ -115,7 +117,7 @@ export async function loginUser({
 }: {
   email: string;
   password: string;
-}): Promise<ILoginUser> {
+}): Promise<ISuccessLoginUser> {
   const options = {
     method: "POST",
     headers: {
@@ -126,7 +128,10 @@ export async function loginUser({
       password,
     }),
   };
-  const res = await request<ILoginUser>(`${NORMA_API}/auth/login`, options);
+  const res = await request<ISuccessLoginUser>(
+    `${NORMA_API}/auth/login`,
+    options
+  );
   return res;
 }
 // выход

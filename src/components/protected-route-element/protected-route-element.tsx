@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { getCookie } from "../../utils/cookie-handler";
 import { paths } from "../../utils/paths";
 import { useEffect, useState } from "react";
-import { getUserInfoRequest } from "../../services/actions/user-actions";
+import { getUserInfoAction } from "../../services/actions/user-actions/get-user-info-actions";
 import { useDispatch } from "react-redux";
 import Preloader from "../preloader/preloader";
 function ProtectedRouteElement({
@@ -17,7 +17,7 @@ function ProtectedRouteElement({
   const dispatch = useDispatch();
   const [isUserLoaded, setIsUserLoaded] = useState(false);
   useEffect(() => {
-    dispatch(getUserInfoRequest() as any).then(() => {
+    dispatch(getUserInfoAction() as any).then(() => {
       setIsUserLoaded(true);
     });
   }, [dispatch]);

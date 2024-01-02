@@ -1,0 +1,19 @@
+.body__container {
+  display: flex;
+  width: 600px;
+  height: 890px;
+  flex-direction: column;
+}
+.boxes__container__scroll {
+  overflow-y: scroll;
+}
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #2f2f37;
+}
+::-webkit-scrollbar-thumb {
+  background: #8585ad;
+  margin-left: 20px;
+}
