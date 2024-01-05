@@ -7,17 +7,19 @@ import style from "./reset-password.module.css";
 import cn from "classnames";
 import { useEffect } from "react";
 import { Navigate, NavLink, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { resetPasswordAction } from "../../services/actions/user-actions/reset-password-actions";
 import { paths } from "../../utils/paths";
 import { useForm } from "../../hooks/useForm";
-import { TRootState } from "../../services/reducers/root-reducer";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "../../hooks/useSelector-useDispatch";
 
 function ResetPassword() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const isResetPasswordSuccess: boolean = useSelector(
-    (state: TRootState) => state.user.resetPasswordSuccess
+  const dispatch = useAppDispatch();
+  const isResetPasswordSuccess: boolean = useAppSelector(
+    (state) => state.user.resetPasswordSuccess
   );
   const { values, handleChange } = useForm({
     password: "",

@@ -1,10 +1,8 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import Preloader from "../preloader/preloader";
-import { IIngredientType, TOrders } from "../../utils/types";
+import { IIngredientType } from "../../utils/types";
 import style from "./order-details.module.css";
-
 import cn from "classnames";
 import {
   addCountToObjects,
@@ -13,10 +11,13 @@ import {
   totalPrice,
 } from "../../utils/functions";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { TRootState } from "../../services/reducers/root-reducer";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "../../hooks/useSelector-useDispatch";
 export default function OrderDetails() {
   const { id } = useParams();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch({ type: "WS_CONNECTION_START" });
@@ -25,11 +26,13 @@ export default function OrderDetails() {
     };
   }, [dispatch]);
 
-  const data: IIngredientType[] = useSelector(
-    (state: TRootState) => state.allIngredients.allIngredients
+  const data: IIngredientType[] = useAppSelector(
+    (state) => state.allIngredients.allIngredients
   );
-  const { orders } = useSelector((store: { ws: TOrders }) => store.ws);
-  const currentOrder = orders.find((order) => order.number === Number(id));
+  const { orders } = useAppSelector((state) => state.ws);
+  const currentOrder = orders.find(
+    (order: { number: number }) => order.number === Number(id)
+  );
   const currentOrderIngredients = currentOrder?.ingredients
     ? burgerIngredientsFunction(currentOrder.ingredients, data)
     : [];

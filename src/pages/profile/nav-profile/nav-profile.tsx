@@ -1,13 +1,13 @@
 import style from "./nav-profile.module.css";
 import cn from "classnames";
 import { NavLink, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { logoutUserAction } from "../../../services/actions/user-actions/logout-user-actions";
 import { paths } from "../../../utils/paths";
+import { useAppDispatch } from "../../../hooks/useSelector-useDispatch";
 
 export default function NavProfile() {
   const { pathname } = useLocation();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const logoutRequest = () => {
     dispatch(logoutUserAction() as any);

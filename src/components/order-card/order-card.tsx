@@ -8,11 +8,9 @@ import {
   getStatusColor,
   getStatusText,
 } from "../../utils/functions";
-import { useSelector } from "react-redux";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { v4 as uuidv4 } from "uuid";
 import { Link, useLocation } from "react-router-dom";
-import { TRootState } from "../../services/reducers/root-reducer";
+import { useAppSelector } from "../../hooks/useSelector-useDispatch";
 
 export default function OrderCard({
   ingredients,
@@ -22,8 +20,8 @@ export default function OrderCard({
   status,
   path,
 }: TOrder) {
-  const data: IIngredientType[] = useSelector(
-    (state: TRootState) => state.allIngredients.allIngredients
+  const data: IIngredientType[] = useAppSelector(
+    (state) => state.allIngredients.allIngredients
   );
   const maxElementsToRender = 6;
   let zIndex = maxElementsToRender;
@@ -82,7 +80,7 @@ export default function OrderCard({
                     return (
                       <li
                         className={style.list__item}
-                        key={uuidv4()}
+                        key={zIndex}
                         style={{ zIndex: zIndex }}
                       >
                         <div

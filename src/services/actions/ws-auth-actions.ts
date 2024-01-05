@@ -44,7 +44,6 @@ export interface IWsConnectionErrorAuthAction {
 
 export interface IWsConnectionClosedAuthAction {
   readonly type: typeof WS_CONNECTION_CLOSED_AUTH;
-  payload: PayloadAction;
 }
 
 export interface IWsGetMessageAuthAction {

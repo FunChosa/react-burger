@@ -1,8 +1,7 @@
 import style from "./order-summary.module.css";
 import cn from "classnames";
 import done from "../../images/done.svg";
-import { useSelector } from "react-redux";
-import { TRootState } from "../../services/reducers/root-reducer";
+import { useAppSelector } from "../../hooks/useSelector-useDispatch";
 
 const OrderSummary = () => {
   const modalText = {
@@ -11,8 +10,8 @@ const OrderSummary = () => {
     subtitle: "Дождитесь готовности на орбитальной станции",
   };
 
-  const orderNumber: number | null = useSelector(
-    (state: TRootState) => state.orderDetails.orderNumber
+  const orderNumber: number | null = useAppSelector(
+    (state) => state.orderDetails.orderNumber
   );
 
   return (

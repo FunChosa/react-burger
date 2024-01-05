@@ -3,10 +3,10 @@ import {
   LOGIN_USER_SUCCESS,
   LOGIN_USER_ERROR,
 } from "../../constants/user-constants/login-user-constants";
-import { Dispatch } from "redux";
 import { setCookie } from "../../../utils/cookie-handler";
 import { loginUser } from "../../../utils/burger-api";
 import { ISuccessLoginUser } from "../../../utils/types";
+import { AppDispatch } from "../../..";
 export interface ILoginUser {
   readonly type: typeof LOGIN_USER_REQUEST;
 }
@@ -41,7 +41,7 @@ export const loginUserError = (): ILoginUserError => ({
 });
 
 export const loginUserAction = (email: string, password: string) => {
-  return async (dispatch: Dispatch<TLoginUserActions>) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(loginUserRequest());
     try {
       const res = await loginUser({

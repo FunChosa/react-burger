@@ -5,7 +5,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./burger-constructor.module.css";
 import cn from "classnames";
-import { useDispatch, useSelector } from "react-redux";
+
 import { postOrderRequest } from "../../services/actions/order-details-actions";
 import { useDrop } from "react-dnd/dist/hooks";
 import BurgerConstructorIngredients from "./burger-constructor-ingredients";
@@ -14,13 +14,17 @@ import { getCookie } from "../../utils/cookie-handler";
 import { useNavigate } from "react-router-dom";
 import { IIngredientType } from "../../utils/types";
 import Preloader from "../preloader/preloader";
-import { TRootState } from "../../services/reducers/root-reducer";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "../../hooks/useSelector-useDispatch";
 
 const BurgerConstructor = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { bun, ingredients }: { bun: any; ingredients: IIngredientType[] } =
-    useSelector((state: TRootState) => state.constructorIngrediens);
+  const dispatch = useAppDispatch();
+  const { bun, ingredients } = useAppSelector(
+    (state) => state.constructorIngrediens
+  );
 
   const allIngredients = [bun, ...ingredients, bun];
 
@@ -61,9 +65,7 @@ const BurgerConstructor = () => {
     }),
   });
 
-  const { orderRequest } = useSelector(
-    (state: TRootState) => state.orderDetails
-  );
+  const { orderRequest } = useAppSelector((state) => state.orderDetails);
   if (orderRequest) {
     return <Preloader text="Создание заказа..." />;
   }

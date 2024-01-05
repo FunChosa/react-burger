@@ -8,16 +8,18 @@ import cn from "classnames";
 import { useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { loginUserAction } from "../../services/actions/user-actions/login-user-actions";
-import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { paths } from "../../utils/paths";
 import { useForm } from "../../hooks/useForm";
-import { TRootState } from "../../services/reducers/root-reducer";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "../../hooks/useSelector-useDispatch";
 function Login() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
-  const isLoginSuccess: boolean = useSelector((state: TRootState) => {
+  const isLoginSuccess: boolean = useAppSelector((state) => {
     return state.user.loginSuccess;
   });
 

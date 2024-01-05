@@ -16,7 +16,7 @@ export interface IAddIngredient {
 export interface IDeleteIngredient {
   readonly type: typeof DELETE_INGREDIENT;
   readonly itemType: string;
-  readonly itemKey: string;
+  readonly itemKey: string | undefined;
 }
 
 export interface IIncreaseCounter {

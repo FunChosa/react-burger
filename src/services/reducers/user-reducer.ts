@@ -106,7 +106,10 @@ const userInitialState: TUserState = {
   isUserAuthorized: false,
 };
 
-export const userReducer = (state = userInitialState, action: TUserActions) => {
+export const userReducer = (
+  state = userInitialState,
+  action: TUserActions
+): TUserState => {
   switch (action.type) {
     // авторизация
     case LOGIN_USER_REQUEST:
@@ -164,7 +167,7 @@ export const userReducer = (state = userInitialState, action: TUserActions) => {
     case LOGOUT_USER_SUCCESS:
       return {
         ...state,
-        user: { name: null, email: null },
+        user: { name: "", email: "" },
         logoutRequest: false,
         logoutSuccess: true,
         loginSuccess: false,

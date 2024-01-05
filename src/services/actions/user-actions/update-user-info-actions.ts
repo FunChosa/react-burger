@@ -1,9 +1,9 @@
+import { AppDispatch } from "../../..";
 import {
   UPDATE_USER_INFO_REQUEST,
   UPDATE_USER_INFO_SUCCESS,
   UPDATE_USER_INFO_ERROR,
 } from "../../../services/constants/user-constants/update-user-info-constants";
-import { Dispatch } from "redux";
 import { refreshToken, updateUserInfo } from "../../../utils/burger-api";
 import { setCookie } from "../../../utils/cookie-handler";
 import { IUserUpdateInfo } from "../../../utils/types";
@@ -46,17 +46,16 @@ export const updateUserInfoAction = (
   email: string,
   password: string
 ) => {
-  return async (dispatch: Dispatch<TUpdateUserInfoActions>) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(updateUserInfoRequest());
     try {
       const res = await updateUserInfo({ name, email, password });
       if (res && res.success) {
         dispatch(updateUserInfoSuccess(res));
-        console.log("UPDATE_USER_INFO_SUCCESS добавь типизацию", res);
       } else {
         dispatch(updateUserInfoError());
       }
-    } catch (err: any) {
+    } catch (err: Error | any) {
       if (err.message === "jwt expired" || err.message === "jwt malformed") {
         const res = await refreshToken();
         if (res && res.success) {

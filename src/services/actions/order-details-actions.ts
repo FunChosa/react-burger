@@ -8,7 +8,7 @@ import {
   RESET_INGREDIENTS,
 } from "../constants/order-details-constants";
 import { IIngredientType, IOrder } from "../../utils/types";
-import { Dispatch } from "redux";
+import { AppDispatch } from "../..";
 
 export interface IPostOrder {
   readonly type: typeof POST_ORDER_REQUEST;
@@ -64,14 +64,11 @@ export const resetIngredientsAction = (): IResetIngredients => ({
 });
 
 export const postOrderRequest =
-  (ingredients: IIngredientType[]) =>
-  async (dispatch: Dispatch<TOrderDetailsActions>) => {
+  (ingredients: IIngredientType[]) => async (dispatch: AppDispatch) => {
     dispatch(postOrderRequestAction());
     try {
       const res = await sendOrder(ingredients);
       if (res && res.success) {
-        console.log("POST_ORDER_SUCCESS", res);
-
         dispatch(postOrderSuccessAction(res));
         dispatch(openModalOrderDetailsAction());
         dispatch(resetIngredientsAction());

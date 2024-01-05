@@ -3,9 +3,8 @@ import {
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_ERROR,
 } from "../../constants/user-constants/reset-password-constants";
-
-import { Dispatch } from "redux";
 import { resetPassword } from "../../../utils/burger-api";
+import { AppDispatch } from "../../..";
 
 export interface IResetPasswordRequest {
   readonly type: typeof RESET_PASSWORD_REQUEST;
@@ -39,7 +38,7 @@ export const resetPasswordAction = (data: {
   password: string;
   resetToken: string;
 }) => {
-  return async (dispatch: Dispatch<TResetPasswordActions>) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(resetPasswordRequest());
     try {
       const res = await resetPassword(data);

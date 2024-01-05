@@ -1,9 +1,9 @@
+import { AppDispatch } from "../../..";
 import {
   LOGOUT_USER_REQUEST,
   LOGOUT_USER_SUCCESS,
   LOGOUT_USER_ERROR,
 } from "../../../services/constants/user-constants/logout-user-constants";
-import { Dispatch } from "redux";
 import { logoutUser } from "../../../utils/burger-api";
 import { deleteCookie } from "../../../utils/cookie-handler";
 
@@ -37,7 +37,7 @@ export const logoutUserError = (): ILogoutUserError => ({
 });
 
 export const logoutUserAction = () => {
-  return async (dispatch: Dispatch<TLogoutUserActions>) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(logoutUserRequest());
     try {
       const res = await logoutUser();

@@ -3,8 +3,8 @@ import {
   FORGOT_PASSWORD_SUCCESS,
   FORGOT_PASSWORD_ERROR,
 } from "../../../services/constants/user-constants/forgot-password-constants";
-import { Dispatch } from "redux";
 import { forgotPassword } from "../../../utils/burger-api";
+import { AppDispatch } from "../../..";
 
 export interface IForgotPasswordRequest {
   readonly type: typeof FORGOT_PASSWORD_REQUEST;
@@ -34,8 +34,7 @@ export const forgotPasswordError = (): IForgotPasswordError => ({
 });
 
 export const forgotPasswordAction =
-  (data: { valueEmail: string }) =>
-  async (dispatch: Dispatch<TForgotPasswordActions>) => {
+  (data: { valueEmail: string }) => async (dispatch: AppDispatch) => {
     dispatch(forgotPasswordRequest());
     try {
       const res = await forgotPassword(data);

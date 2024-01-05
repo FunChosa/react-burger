@@ -14,7 +14,7 @@ export type TOrderDetailsState = {
   isModalActive: boolean;
 };
 
-const orderDetailsInitialState = {
+const orderDetailsInitialState: TOrderDetailsState = {
   orderNumber: null,
   orderRequest: false,
   orderFailed: false,

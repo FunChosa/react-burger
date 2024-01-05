@@ -10,7 +10,7 @@ import { IIngredientType } from "../../utils/types";
 
 export type TConstructorIngrediensState = {
   ingredients: IIngredientType[];
-  bun: {};
+  bun: IIngredientType;
   counts: {
     [key: string]: number;
   };
@@ -18,7 +18,7 @@ export type TConstructorIngrediensState = {
 
 const constructorIngrediensInitialState: TConstructorIngrediensState = {
   ingredients: [],
-  bun: {},
+  bun: {} as IIngredientType,
   counts: {},
 };
 
@@ -104,7 +104,7 @@ export const constructorIngrediensReducer = (
       return {
         ...state,
         ingredients: [],
-        bun: {},
+        bun: {} as IIngredientType,
         counts: {},
       };
     }

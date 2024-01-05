@@ -1,16 +1,15 @@
 import React from "react";
 import cn from "classnames";
-import { useSelector } from "react-redux";
 import style from "./burger-ingredients.module.css";
 import IngredientsCategory from "./ingredients-category";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useInView } from "react-intersection-observer";
 import { useEffect, useMemo } from "react";
 import { IIngredientType } from "../../utils/types";
-import { TRootState } from "../../services/reducers/root-reducer";
+import { useAppSelector } from "../../hooks/useSelector-useDispatch";
 function BurgerIngredients() {
-  const data: IIngredientType[] = useSelector(
-    (state: TRootState) => state.allIngredients.allIngredients
+  const data: IIngredientType[] = useAppSelector(
+    (state) => state.allIngredients.allIngredients
   );
 
   const [buns, sauces, mains] = useMemo(() => {

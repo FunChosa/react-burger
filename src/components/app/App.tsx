@@ -12,7 +12,6 @@ import Feed from "../../pages/feed/feed";
 import { useLocation } from "react-router-dom";
 import { useEffect, useCallback } from "react";
 import { getData } from "../../services/actions/all-ingredients-actions";
-import { useDispatch } from "react-redux";
 import ProtectedRouteElement from "../protected-route-element/protected-route-element";
 import { paths } from "../../utils/paths";
 import { useNavigate } from "react-router-dom";
@@ -20,9 +19,10 @@ import Profile from "../../pages/profile/profile/profile";
 import ProfileOrders from "../../pages/profile/profile-orders/profile-orders";
 
 import OrderDetails from "../order-details/order-details";
+import { useAppDispatch } from "../../hooks/useSelector-useDispatch";
 function App() {
   const ModalSwitch = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const location = useLocation();
     const navigate = useNavigate();
     const background = location.state && location.state.background;

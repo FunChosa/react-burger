@@ -1,11 +1,10 @@
 import style from "./stats.module.css";
 import cn from "classnames";
-import { useSelector } from "react-redux";
-import { TOrder, TOrders } from "../../utils/types";
+import { TOrder } from "../../utils/types";
+import { useAppSelector } from "../../hooks/useSelector-useDispatch";
 export default function Stats() {
-  const { orders, total, totalToday } = useSelector(
-    (store: { ws: TOrders }) => store.ws
-  );
+  const { orders, total, totalToday } = useAppSelector((state) => state.ws);
+
   // заказы созданные и в обработке
   const ordersPendingOrCreated = orders
     .filter(
@@ -65,7 +64,14 @@ export default function Stats() {
         <p className={cn("text text_type_main-medium")}>
           Выполнено за сегодня:
         </p>
-        <p className={cn("text text_type_digits-large")}>{totalToday || 0}</p>
+        <p
+          className={cn(
+            style.order__details__title,
+            "text text_type_digits-large"
+          )}
+        >
+          {totalToday || 0}
+        </p>
       </section>
     </div>
   );

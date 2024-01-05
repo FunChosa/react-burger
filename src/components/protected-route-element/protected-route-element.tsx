@@ -4,8 +4,8 @@ import { getCookie } from "../../utils/cookie-handler";
 import { paths } from "../../utils/paths";
 import { useEffect, useState } from "react";
 import { getUserInfoAction } from "../../services/actions/user-actions/get-user-info-actions";
-import { useDispatch } from "react-redux";
 import Preloader from "../preloader/preloader";
+import { useAppDispatch } from "../../hooks/useSelector-useDispatch";
 function ProtectedRouteElement({
   element,
   protectedFromAuthorizedUser,
@@ -14,7 +14,7 @@ function ProtectedRouteElement({
   protectedFromAuthorizedUser?: boolean;
 }) {
   const location = useLocation();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [isUserLoaded, setIsUserLoaded] = useState(false);
   useEffect(() => {
     dispatch(getUserInfoAction() as any).then(() => {

@@ -1,3 +1,4 @@
+import { AppDispatch } from "../..";
 import { getIngredients } from "../../utils/burger-api";
 import { IIngredientType } from "../../utils/types";
 import {
@@ -5,7 +6,6 @@ import {
   GET_DATA_SUCCESS,
   GET_DATA_ERROR,
 } from "../constants/all-ingredients-constants";
-import { Dispatch } from "redux";
 export interface IGetIngredients {
   readonly type: typeof GET_DATA_REQUEST;
 }
@@ -38,18 +38,17 @@ export const getIngredientsSuccess = (
 export const getIngredientsError = (): IGetIngredientsError => ({
   type: GET_DATA_ERROR,
 });
-export const getData =
-  () => async (dispatch: Dispatch<TAllIngredientsActions>) => {
-    dispatch(getIngredientsRequest());
-    try {
-      const res = await getIngredients();
-      if (res && res.success) {
-        dispatch(getIngredientsSuccess(res.data));
-      } else {
-        dispatch(getIngredientsError());
-      }
-    } catch (err) {
-      console.error(err);
+export const getData = () => async (dispatch: AppDispatch) => {
+  dispatch(getIngredientsRequest());
+  try {
+    const res = await getIngredients();
+    if (res && res.success) {
+      dispatch(getIngredientsSuccess(res.data));
+    } else {
       dispatch(getIngredientsError());
     }
-  };
+  } catch (err) {
+    console.error(err);
+    dispatch(getIngredientsError());
+  }
+};

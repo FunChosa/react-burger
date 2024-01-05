@@ -6,7 +6,7 @@ import {
   REGISTER_USER_ERROR,
 } from "../../../services/constants/user-constants/register-user-constants";
 import { IRegisterUser } from "../../../utils/types";
-import { Dispatch } from "redux";
+import { AppDispatch } from "../../..";
 
 export interface IRegisterUserRequest {
   readonly type: typeof REGISTER_USER_REQUEST;
@@ -46,7 +46,7 @@ export const registerUserAction = (
   name: string,
   password: string
 ) => {
-  return async (dispatch: Dispatch<TRegisterUserActions>) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(registerUserRequest());
     try {
       const res = await registerUser({ email, name, password });

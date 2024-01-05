@@ -2,12 +2,12 @@ import {
   ConstructorElement,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch } from "react-redux";
 import { useDrop, useDrag } from "react-dnd/dist/hooks";
 import { useRef } from "react";
 import style from "./burger-constructor.module.css";
 import cn from "classnames";
 import { IIngredientType } from "../../utils/types";
+import { useAppDispatch } from "../../hooks/useSelector-useDispatch";
 
 const BurgerConstructorIngredients = ({
   item,
@@ -16,7 +16,7 @@ const BurgerConstructorIngredients = ({
   item: IIngredientType;
   index: number;
 }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleClose = (item: IIngredientType) => {
     dispatch({

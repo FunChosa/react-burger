@@ -9,17 +9,19 @@ import cn from "classnames";
 import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { registerUserAction } from "../../services/actions/user-actions/register-user-actions";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { paths } from "../../utils/paths";
 import { useForm } from "../../hooks/useForm";
-import { TRootState } from "../../services/reducers/root-reducer";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "../../hooks/useSelector-useDispatch";
 
 function Register() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const isRegisterSuccess: boolean = useSelector(
-    (state: TRootState) => state.user.registerSuccess
+  const dispatch = useAppDispatch();
+  const isRegisterSuccess: boolean = useAppSelector(
+    (state) => state.user.registerSuccess
   );
   const { values, handleChange } = useForm({
     email: "",

@@ -7,27 +7,29 @@ import {
 import style from "./profile.module.css";
 import cn from "classnames";
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { getUserInfoAction } from "../../../services/actions/user-actions/get-user-info-actions";
 import NavProfile from "../nav-profile/nav-profile";
 import Preloader from "../../../components/preloader/preloader";
 import { updateUserInfoAction } from "../../../services/actions/user-actions/update-user-info-actions";
 import { useForm } from "../../../hooks/useForm";
-import { TRootState } from "../../../services/reducers/root-reducer";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "../../../hooks/useSelector-useDispatch";
 
 export default function Profile() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [isUserLoaded, setIsUserLoaded] = useState(false);
   useEffect(() => {
     dispatch(getUserInfoAction() as any).then(() => {
       setIsUserLoaded(true);
     });
   }, [dispatch]);
-  const currentUserName: string = useSelector(
-    (state: TRootState) => state.user.user.name
+  const currentUserName: string = useAppSelector(
+    (state) => state.user.user.name
   );
-  const currentUserEmail: string = useSelector(
-    (state: TRootState) => state.user.user.email
+  const currentUserEmail: string = useAppSelector(
+    (state) => state.user.user.email
   );
   const { values, handleChange, setValues, isChanged, setIsChanged } = useForm({
     name: currentUserName,

@@ -1,12 +1,12 @@
 import style from "./orders-list.module.css";
 import cn from "classnames";
 import OrderCard from "../order-card/order-card";
-import { TOrder, TOrders } from "../../utils/types";
-import { useSelector } from "react-redux";
+import { TOrder } from "../../utils/types";
 import { paths } from "../../utils/paths";
+import { useAppSelector } from "../../hooks/useSelector-useDispatch";
 
 export default function OrdersList() {
-  const { orders } = useSelector((store: { ws: TOrders }) => store.ws);
+  const { orders } = useAppSelector((state) => state.ws);
 
   return (
     <div className={cn(style.body__container, "ml-30, mr-10")}>
