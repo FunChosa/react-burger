@@ -7,16 +7,19 @@ import style from "./reset-password.module.css";
 import cn from "classnames";
 import { useEffect } from "react";
 import { Navigate, NavLink, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { resetPasswordRequest } from "../../services/actions/user-actions";
+import { resetPasswordAction } from "../../services/actions/user-actions/reset-password-actions";
 import { paths } from "../../utils/paths";
 import { useForm } from "../../hooks/useForm";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "../../hooks/useSelector-useDispatch";
 
 function ResetPassword() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const isResetPasswordSuccess: boolean = useSelector(
-    (state: any) => state.user.resetPasswordSuccess
+  const dispatch = useAppDispatch();
+  const isResetPasswordSuccess: boolean = useAppSelector(
+    (state) => state.user.resetPasswordSuccess
   );
   const { values, handleChange } = useForm({
     password: "",
@@ -24,7 +27,12 @@ function ResetPassword() {
   });
   const resetPassword = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    dispatch(resetPasswordRequest({ ...values } as any) as any);
+    dispatch(
+      resetPasswordAction({
+        password: values.password,
+        resetToken: values.resetToken,
+      }) as any
+    );
   };
   useEffect(() => {
     if (isResetPasswordSuccess) {

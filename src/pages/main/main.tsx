@@ -1,23 +1,25 @@
 import BurgerConstructor from "../../components/burger-constructor/burger-constructor";
 import BurgerIngredients from "../../components/burger-ingredients/burger-ingredients";
-import OrderDetails from "../../components/order-details/order-details";
+import OrderSummary from "../../components/order-summary/order-summary";
 import Modal from "../../components/modal/modal";
 import style from "./main.module.css";
-import { useSelector } from "react-redux";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import Preloader from "../../components/preloader/preloader";
-import { useDispatch } from "react-redux";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "../../hooks/useSelector-useDispatch";
 export default function Main() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const {
     allIngredientsRequest,
     allIngredientsFailed,
   }: { allIngredientsRequest: boolean; allIngredientsFailed: boolean } =
-    useSelector((state: any) => state.allIngredients);
+    useAppSelector((state) => state.allIngredients);
 
-  const isOrderDetailsModalOpen: boolean = useSelector(
-    (state: any) => state.orderDetails.isModalActive
+  const isOrderDetailsModalOpen: boolean = useAppSelector(
+    (state) => state.orderDetails.isModalActive
   );
   const handleOrderDetailsModalClose = () => {
     dispatch({ type: "CLOSE_MODAL_ORDER_DETAILS" });
@@ -41,7 +43,7 @@ export default function Main() {
       </main>
       {isOrderDetailsModalOpen && (
         <Modal onClose={handleOrderDetailsModalClose}>
-          <OrderDetails />
+          <OrderSummary />
         </Modal>
       )}
     </>

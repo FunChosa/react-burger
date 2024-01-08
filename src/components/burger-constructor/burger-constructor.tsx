@@ -5,7 +5,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./burger-constructor.module.css";
 import cn from "classnames";
-import { useDispatch, useSelector } from "react-redux";
+
 import { postOrderRequest } from "../../services/actions/order-details-actions";
 import { useDrop } from "react-dnd/dist/hooks";
 import BurgerConstructorIngredients from "./burger-constructor-ingredients";
@@ -13,13 +13,20 @@ import { v4 as uuidv4 } from "uuid";
 import { getCookie } from "../../utils/cookie-handler";
 import { useNavigate } from "react-router-dom";
 import { IIngredientType } from "../../utils/types";
+import Preloader from "../preloader/preloader";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "../../hooks/useSelector-useDispatch";
 
 const BurgerConstructor = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { bun, ingredients }: any = useSelector(
-    (state: any) => state.constructorIngrediens
+  const dispatch = useAppDispatch();
+  const { bun, ingredients } = useAppSelector(
+    (state) => state.constructorIngrediens
   );
+
+  const allIngredients = [bun, ...ingredients, bun];
 
   const createOrder = () => {
     const token =
@@ -27,7 +34,7 @@ const BurgerConstructor = () => {
 
     !token
       ? navigate("/login")
-      : dispatch(postOrderRequest(ingredients) as any);
+      : dispatch(postOrderRequest(allIngredients) as any);
   };
 
   const totalAmount = (
@@ -58,6 +65,10 @@ const BurgerConstructor = () => {
     }),
   });
 
+  const { orderRequest } = useAppSelector((state) => state.orderDetails);
+  if (orderRequest) {
+    return <Preloader text="Создание заказа..." />;
+  }
   return (
     <div className={cn(style.body__container, "mt-25")} ref={dropTarget}>
       {Object.entries(bun).length !== 0 && (

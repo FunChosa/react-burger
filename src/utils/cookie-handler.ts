@@ -15,7 +15,7 @@ export function setCookie(
   value: string,
   props?: {
     expires?: number | Date | string;
-    [key: string]: any;
+    [key: string]: string | number | Date | boolean | undefined;
   }
 ) {
   props = props || {};

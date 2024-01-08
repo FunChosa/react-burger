@@ -1,19 +1,17 @@
 import style from "./ingredient-details.module.css";
 import cn from "classnames";
 import NutritionValue from "./nutrition-value";
-import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { IIngredientType } from "../../utils/types";
+import { useAppSelector } from "../../hooks/useSelector-useDispatch";
 function IngredientDetails() {
   const { ingredientId } = useParams();
-  const ingredient: IIngredientType = useSelector((state: any) => {
-    if (ingredientId) {
-      return state.allIngredients.allIngredients.find(
+  const ingredient: IIngredientType | null = useAppSelector((state) => {
+    return (
+      state.allIngredients.allIngredients.find(
         (item: IIngredientType) => item._id === ingredientId
-      );
-    } else {
-      return state.ingredientDetails.ingredient;
-    }
+      ) || null
+    );
   });
   return (
     ingredient && (

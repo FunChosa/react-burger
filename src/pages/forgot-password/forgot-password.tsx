@@ -7,15 +7,18 @@ import cn from "classnames";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { forgotPasswordRequest } from "../../services/actions/user-actions";
+import { forgotPasswordAction } from "../../services/actions/user-actions/forgot-password-actions";
 import { paths } from "../../utils/paths";
 import { useForm } from "../../hooks/useForm";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "../../hooks/useSelector-useDispatch";
 
 function ForgotPassword() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const isForgotPasswordSuccess: boolean = useSelector((state: any) => {
+  const dispatch = useAppDispatch();
+  const isForgotPasswordSuccess: boolean = useAppSelector((state) => {
     return state.user.forgotPasswordSuccess;
   });
   const { values, handleChange } = useForm({
@@ -24,7 +27,7 @@ function ForgotPassword() {
   const forgotPassword = ({ valueEmail }: { valueEmail: string }) => {
     return (e: { preventDefault: () => void }) => {
       e.preventDefault();
-      dispatch(forgotPasswordRequest({ valueEmail }) as any);
+      dispatch(forgotPasswordAction({ valueEmail }) as any);
       localStorage.setItem("forgotPasswordEmail", valueEmail);
     };
   };

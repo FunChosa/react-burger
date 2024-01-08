@@ -1,11 +1,17 @@
 import style from "./preloader.module.css";
 import cn from "classnames";
-function Preloader() {
+
+type TPreloader = {
+  text?: string;
+};
+export default function Preloader(props: TPreloader) {
+  const text = props.text || "Загрузка...";
   return (
     <div
       className={cn(
         style.container,
-        "mt-30",
+        "mb-15",
+        "mt-5",
         "text text_type_main-large text_color_inactive"
       )}
     >
@@ -15,10 +21,8 @@ function Preloader() {
           "text text_type_main-large text_color_inactive"
         )}
       >
-        Загружаем данные...
+        {text}
       </p>
     </div>
   );
 }
-
-export default Preloader;

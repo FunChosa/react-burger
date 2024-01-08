@@ -4,15 +4,15 @@ import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
 import { Link, useLocation } from "react-router-dom";
 import { IIngredientType } from "../../utils/types";
+import { useAppSelector } from "../../hooks/useSelector-useDispatch";
 function BurgerIngredient({ item }: { item: IIngredientType }) {
   const location = useLocation();
   const ingredientId = item._id;
-  const { counts, bun }: { counts: any; bun: any } = useSelector(
-    (store: any) => store.constructorIngrediens
+  const { counts, bun } = useAppSelector(
+    (store) => store.constructorIngrediens
   );
 
   const count =

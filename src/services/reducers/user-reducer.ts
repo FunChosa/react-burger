@@ -1,28 +1,76 @@
+import { TUserActions } from "../actions/user-actions/user-union-types";
+import {
+  GET_USER_INFO_REQUEST,
+  GET_USER_INFO_SUCCESS,
+  GET_USER_INFO_ERROR,
+} from "../constants/user-constants/get-user-info-constants";
+import {
+  LOGIN_USER_REQUEST,
+  LOGIN_USER_SUCCESS,
+  LOGIN_USER_ERROR,
+} from "../constants/user-constants/login-user-constants";
+import {
+  LOGOUT_USER_REQUEST,
+  LOGOUT_USER_SUCCESS,
+  LOGOUT_USER_ERROR,
+} from "../constants/user-constants/logout-user-constants";
 import {
   REGISTER_USER_REQUEST,
   REGISTER_USER_SUCCESS,
   REGISTER_USER_ERROR,
-  LOGIN_USER_REQUEST,
-  LOGIN_USER_SUCCESS,
-  LOGIN_USER_ERROR,
-  LOGOUT_USER_REQUEST,
-  LOGOUT_USER_SUCCESS,
-  LOGOUT_USER_ERROR,
-  GET_USER_INFO_REQUEST,
-  GET_USER_INFO_SUCCESS,
-  GET_USER_INFO_ERROR,
+} from "../constants/user-constants/register-user-constants";
+import {
   UPDATE_USER_INFO_REQUEST,
   UPDATE_USER_INFO_SUCCESS,
   UPDATE_USER_INFO_ERROR,
-  FORGOT_PASSWORD_REQUEST,
-  FORGOT_PASSWORD_SUCCESS,
-  FORGOT_PASSWORD_ERROR,
+} from "../constants/user-constants/update-user-info-constants";
+import {
   RESET_PASSWORD_REQUEST,
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_ERROR,
-} from "../actions/user-actions";
+} from "../constants/user-constants/reset-password-constants";
+import {
+  FORGOT_PASSWORD_REQUEST,
+  FORGOT_PASSWORD_SUCCESS,
+  FORGOT_PASSWORD_ERROR,
+} from "../constants/user-constants/forgot-password-constants";
 
-const initialState = {
+export type TUserState = {
+  user: {
+    name: string;
+    email: string;
+  };
+  loginRequest: boolean;
+  loginSuccess: boolean;
+  loginFailed: boolean;
+
+  registerRequest: boolean;
+  registerSuccess: boolean;
+  registerFailed: boolean;
+
+  logoutRequest: boolean;
+  logoutSuccess: boolean;
+  logoutFailed: boolean;
+
+  getUserInfoRequest: boolean;
+  getUserInfoSuccess: boolean;
+  getUserInfoFailed: boolean;
+
+  updateUserInfoRequest: boolean;
+  updateUserInfoFailed: boolean;
+
+  forgotPasswordRequest: boolean;
+  forgotPasswordSuccess: boolean;
+  forgotPasswordFailed: boolean;
+
+  resetPasswordRequest: boolean;
+  resetPasswordSuccess: boolean;
+  resetPasswordFailed: boolean;
+
+  isUserAuthorized: boolean;
+};
+
+const userInitialState: TUserState = {
   user: {
     name: "",
     email: "",
@@ -58,7 +106,10 @@ const initialState = {
   isUserAuthorized: false,
 };
 
-export const userReducer = (state = initialState, action) => {
+export const userReducer = (
+  state = userInitialState,
+  action: TUserActions
+): TUserState => {
   switch (action.type) {
     // авторизация
     case LOGIN_USER_REQUEST:
@@ -116,7 +167,7 @@ export const userReducer = (state = initialState, action) => {
     case LOGOUT_USER_SUCCESS:
       return {
         ...state,
-        user: { name: null, email: null },
+        user: { name: "", email: "" },
         logoutRequest: false,
         logoutSuccess: true,
         loginSuccess: false,
