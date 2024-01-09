@@ -7,7 +7,6 @@ import {
   WS_CONNECTION_CLOSED,
   WS_GET_MESSAGE,
 } from "../constants/ws-constants";
-import { PayloadAction } from "@reduxjs/toolkit";
 import { TOrders } from "../../utils/types";
 export const wsActions = {
   wsInit: WS_CONNECTION_START,
@@ -27,7 +26,9 @@ export interface IWsConnectionSuccess {
 }
 export interface IWsConnectionError {
   readonly type: typeof WS_CONNECTION_ERROR;
-  payload: PayloadAction;
+  payload: {
+    message: string;
+  };
 }
 export interface IWsConnectionClosed {
   readonly type: typeof WS_CONNECTION_CLOSED;

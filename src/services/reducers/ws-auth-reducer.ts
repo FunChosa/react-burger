@@ -6,11 +6,10 @@ import {
 } from "../constants/ws-auth-constants";
 import { TWSActionsAuthActions } from "../actions/ws-auth-actions";
 import { TOrder } from "../../utils/types";
-import { PayloadAction } from "@reduxjs/toolkit";
 
-type TWsReduserAuthState = {
+export type TWsReduserAuthState = {
   wsConnected: Boolean;
-  error: PayloadAction | null;
+  error: null | { message: string };
   orders: Array<TOrder>;
   total: number | null;
   totalToday: number | null;

@@ -4,6 +4,7 @@ import {
   INCREASE_COUNTER,
   DECREASE_COUNTER,
   FILTER_INGREDIENTS,
+  RESET_INGREDIENTS,
 } from "../constants/constructor-ingrediens-constants";
 import { TConstructorIngredientsActions } from "../actions/constructor-ingrediens-actions";
 import { IIngredientType } from "../../utils/types";
@@ -100,7 +101,7 @@ export const constructorIngrediensReducer = (
         ingredients,
       };
     }
-    case "RESET_INGREDIENTS": {
+    case RESET_INGREDIENTS: {
       return {
         ...state,
         ingredients: [],

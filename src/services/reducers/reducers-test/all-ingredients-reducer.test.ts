@@ -1,40 +1,45 @@
-import { allIngredientsReducer } from "../all-ingredients-reducer";
+import {
+  allIngredientsReducer,
+  TAllIngredientsState,
+} from "../all-ingredients-reducer";
 import * as actions from "../../actions/all-ingredients-actions";
 
+const initialState: TAllIngredientsState = {
+  allIngredients: [],
+  allIngredientsRequest: false,
+  allIngredientsFailed: false,
+};
+
 describe("allIngredientsReducer", () => {
-  it("should return the initial state", () => {
+  it("should return the initial state of allIngredients", () => {
     expect(
       allIngredientsReducer(undefined, {} as actions.TAllIngredientsActions)
-    ).toEqual({
-      allIngredients: [],
-      allIngredientsRequest: false,
-      allIngredientsFailed: false,
-    });
+    ).toEqual(initialState);
   });
 
-  it("should handle GET_DATA_REQUEST", () => {
+  it("should handle GET_DATA_REQUEST action", () => {
     expect(
       allIngredientsReducer(undefined, actions.getIngredientsRequest())
     ).toEqual({
-      allIngredients: [],
+      ...initialState,
       allIngredientsRequest: true,
-      allIngredientsFailed: false,
     });
   });
-  it("should handle GET_DATA_SUCCESS", () => {
+  it("should handle GET_DATA_SUCCESS action", () => {
     expect(
       allIngredientsReducer(undefined, actions.getIngredientsSuccess([]))
     ).toEqual({
+      ...initialState,
       allIngredients: [],
       allIngredientsRequest: false,
       allIngredientsFailed: false,
     });
   });
-  it("should handle GET_DATA_ERROR", () => {
+  it("should handle GET_DATA_ERROR action", () => {
     expect(
       allIngredientsReducer(undefined, actions.getIngredientsError())
     ).toEqual({
-      allIngredients: [],
+      ...initialState,
       allIngredientsRequest: false,
       allIngredientsFailed: true,
     });

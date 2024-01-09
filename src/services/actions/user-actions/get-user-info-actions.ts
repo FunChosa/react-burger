@@ -12,7 +12,7 @@ export interface IGetUserInfoRequest {
 }
 export interface IGetUserInfoSuccess {
   readonly type: typeof GET_USER_INFO_SUCCESS;
-  readonly res: IUserGetInfo;
+  readonly data: IUserGetInfo;
 }
 export interface IGetUserInfoError {
   readonly type: typeof GET_USER_INFO_ERROR;
@@ -28,7 +28,7 @@ export const getUserInfoRequest = (): IGetUserInfoRequest => ({
 });
 export const getUserInfoSuccess = (res: IUserGetInfo): IGetUserInfoSuccess => ({
   type: GET_USER_INFO_SUCCESS,
-  res: res,
+  data: res,
 });
 export const getUserInfoError = (): IGetUserInfoError => ({
   type: GET_USER_INFO_ERROR,
