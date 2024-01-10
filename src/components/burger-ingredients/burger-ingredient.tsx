@@ -25,10 +25,8 @@ function BurgerIngredient({ item }: { item: IIngredientType }) {
       isDragging: monitor.isDragging(),
     }),
   });
-  const borderTopColor = isDragging ? "rgba(76, 76, 255, 0.7)" : "transparent";
-  const borderBottomColor = isDragging
-    ? "rgba(76, 76, 255, 0.7)"
-    : "transparent";
+  const borderColor = isDragging ? "rgba(76, 76, 255, 1)" : "transparent";
+
   return (
     <Link
       key={ingredientId}
@@ -39,9 +37,10 @@ function BurgerIngredient({ item }: { item: IIngredientType }) {
       className={cn(style.link, "text text_type_main-default")}
     >
       <div
-        className={cn(style.item__container, "mb-8")}
+        className={cn(style.item__container, "mb-8", "p-1")}
         ref={dragRef}
-        style={{ borderTopColor, borderBottomColor }}
+        style={{ borderColor }}
+        data-cy={`ingredient-card-${item._id}`}
       >
         <img
           className={cn("ml-4", "mr-4", "mb-1")}
@@ -58,6 +57,7 @@ function BurgerIngredient({ item }: { item: IIngredientType }) {
           className={cn(
             style.item__name,
             "mt-1",
+            "mb-1",
             "text",
             "text_type_main-default"
           )}

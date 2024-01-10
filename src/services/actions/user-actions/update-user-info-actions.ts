@@ -64,7 +64,7 @@ export const updateUserInfoAction = (
         }
       } else {
         dispatch(updateUserInfoError());
-        console.log("UPDATE_USER_INFO_ERROR", err);
+        // console.log("UPDATE_USER_INFO_ERROR", err);
       }
     }
   };

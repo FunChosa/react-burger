@@ -77,14 +77,16 @@ export interface IUserUpdateInfo {
   };
 }
 export type TOrder = {
-  createdAt: string;
   ingredients: Array<string>;
+  createdAt: string;
   name: string;
   number: number;
   status?: string;
   updatedAt?: string;
   _id?: string;
   path?: string;
+  __v?: number;
+  owner?: string;
 };
 export type TOrders = {
   orders: Array<TOrder>;

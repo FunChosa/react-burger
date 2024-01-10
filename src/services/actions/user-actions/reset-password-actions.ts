@@ -49,7 +49,7 @@ export const resetPasswordAction = (data: {
       }
     } catch (err) {
       dispatch(resetPasswordError());
-      console.log("RESET_PASSWORD_ERROR", err);
+      // console.log("RESET_PASSWORD_ERROR", err);
     }
   };
 };

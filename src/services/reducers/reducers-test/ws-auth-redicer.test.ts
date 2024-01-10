@@ -27,6 +27,7 @@ describe("wsReducerAuth", () => {
     const action = {
       type: WS_CONNECTION_SUCCESS_AUTH,
     };
+
     expect(wsReducerAuth(initialState, action)).toEqual({
       ...initialState,
       wsConnected: true,

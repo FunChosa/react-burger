@@ -17,6 +17,7 @@ function IngredientDetails() {
     ingredient && (
       <div
         className={cn(style.ingredient__details__container, "mt-10", "mb-15")}
+        data-cy="ingredient-details"
       >
         <img
           className={cn("mb-4", style.ingredient__details__image)}

@@ -6,13 +6,15 @@ function IngredientsCategory({
   text,
   itemsByType,
   refForTab,
+  tabId,
 }: {
   text: string;
   itemsByType: IIngredientType[];
   refForTab: any;
+  tabId: string;
 }) {
   return (
-    <div ref={refForTab}>
+    <div ref={refForTab} id={tabId}>
       <h2 className={cn("text text_type_main-medium", "pt-10 pb-6")}>{text}</h2>
       <section className={style.box__container}>
         {itemsByType.map((item) => {

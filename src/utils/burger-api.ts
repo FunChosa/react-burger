@@ -186,7 +186,7 @@ export async function updateUserInfo({
   name: string;
   email: string;
   password: string;
-}): Promise<IUserGetInfo> {
+}): Promise<IUserUpdateInfo> {
   const options = {
     method: "PATCH",
     headers: {

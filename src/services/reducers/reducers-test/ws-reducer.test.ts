@@ -27,6 +27,7 @@ describe("wsReducer", () => {
     const action = {
       type: WS_CONNECTION_SUCCESS,
     };
+
     expect(wsReducer(initialState, action)).toEqual({
       ...initialState,
       wsConnected: true,

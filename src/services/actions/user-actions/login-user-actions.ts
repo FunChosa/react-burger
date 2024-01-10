@@ -57,7 +57,7 @@ export const loginUserAction = (email: string, password: string) => {
       }
     } catch (err) {
       dispatch(loginUserError());
-      console.log("LOGIN_USER_ERROR", err);
+      // console.log("LOGIN_USER_ERROR", err);
     }
   };
 };

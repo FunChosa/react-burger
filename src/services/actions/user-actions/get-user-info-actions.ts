@@ -52,7 +52,7 @@ export const getUserInfoAction = () => async (dispatch: AppDispatch) => {
       }
     } else {
       dispatch(getUserInfoError());
-      console.log("GET_USER_INFO_ERROR", err);
+      // console.log("GET_USER_INFO_ERROR", err);
     }
   }
 };

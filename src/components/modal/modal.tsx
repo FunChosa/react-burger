@@ -29,10 +29,10 @@ const Modal = (props: TModal) => {
 
   return ReactDOM.createPortal(
     <>
-      <div className={cn(style.modal__container)}>
+      <div className={cn(style.modal__container)} data-cy="modal">
         <div className={cn(style.modal__header, "mt-10", "ml-10", "mr-10")}>
           <h1 className={cn("text text_type_main-large")}>{props.title}</h1>
-          <div className={cn(style.close__icon)}>
+          <div className={cn(style.close__icon)} data-cy="modal-close">
             <CloseIcon type="primary" onClick={props.onClose} />
           </div>
         </div>

@@ -21,25 +21,24 @@ function BurgerIngredients() {
     return [buns, sauces, mains];
   }, [data]);
 
-  const [current, setCurrent] = React.useState("one");
+  const [current, setCurrent] = React.useState("buns");
 
-  const { ref: refBun, inView: inViewBun } = useInView({ threshold: 1 });
-  const { ref: refSauce, inView: inViewSauce } = useInView({ threshold: 0.8 });
-  const { ref: refMain, inView: inViewMain } = useInView({ threshold: 0.4 });
+  const [refBun, inViewBun] = useInView({ threshold: 1 });
+  const [refSauce, inViewSauce] = useInView({ threshold: 0.8 });
+  const [refMain, inViewMain] = useInView({ threshold: 0.4 });
 
   useEffect(() => {
-    inViewBun
-      ? setCurrent("one")
-      : inViewSauce
-      ? setCurrent("two")
-      : setCurrent("three");
+    if (inViewBun) setCurrent("buns");
+    if (inViewSauce) setCurrent("sauces");
+    if (inViewMain) setCurrent("mains");
   }, [inViewBun, inViewSauce, inViewMain]);
 
-  const ingredientCategories = [
-    { text: "Булки", itemsByType: buns, ref: refBun },
-    { text: "Соусы", itemsByType: sauces, ref: refSauce },
-    { text: "Начинка", itemsByType: mains, ref: refMain },
-  ];
+  const onTabClick = (tab: string) => {
+    setCurrent(tab);
+    const tabElement = document.getElementById(tab);
+    if (tabElement)
+      tabElement.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   return (
     <div className={cn(style.body__container, "ml-30, mr-10")}>
@@ -47,25 +46,35 @@ function BurgerIngredients() {
         Соберите бургер
       </h1>
       <section className={style.tabs__container}>
-        <Tab value="bun" active={current === "one"} onClick={setCurrent}>
+        <Tab value="buns" active={current === "buns"} onClick={onTabClick}>
           Булки
         </Tab>
-        <Tab value="sauce" active={current === "two"} onClick={setCurrent}>
+        <Tab value="sauces" active={current === "sauces"} onClick={onTabClick}>
           Соусы
         </Tab>
-        <Tab value="main" active={current === "three"} onClick={setCurrent}>
+        <Tab value="mains" active={current === "mains"} onClick={onTabClick}>
           Начинки
         </Tab>
       </section>
       <section className={cn(style.boxes__container__scroll, "pt-2, pr-6")}>
-        {ingredientCategories.map((category, index) => (
-          <IngredientsCategory
-            key={index}
-            text={category.text}
-            itemsByType={category.itemsByType}
-            refForTab={category.ref}
-          />
-        ))}
+        <IngredientsCategory
+          text="Булки"
+          tabId="buns"
+          itemsByType={buns}
+          refForTab={refBun}
+        />
+        <IngredientsCategory
+          text="Соусы"
+          tabId="sauces"
+          itemsByType={sauces}
+          refForTab={refSauce}
+        />
+        <IngredientsCategory
+          text="Начинки"
+          tabId="mains"
+          itemsByType={mains}
+          refForTab={refMain}
+        />
       </section>
     </div>
   );

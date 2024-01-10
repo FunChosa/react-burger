@@ -33,6 +33,7 @@ export default function OrderDetails() {
   const currentOrder = orders.find(
     (order: { number: number }) => order.number === Number(id)
   );
+
   const currentOrderIngredients = currentOrder?.ingredients
     ? burgerIngredientsFunction(currentOrder.ingredients, data)
     : [];
