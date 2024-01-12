@@ -59,7 +59,7 @@ export const registerUserAction = (
       }
     } catch (err) {
       dispatch(registerUserError());
-      console.log("REGISTER_USER_ERROR", err);
+      // console.log("REGISTER_USER_ERROR", err);
     }
   };
 };

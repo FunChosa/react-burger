@@ -70,7 +70,11 @@ const BurgerConstructor = () => {
     return <Preloader text="Создание заказа..." />;
   }
   return (
-    <div className={cn(style.body__container, "mt-25")} ref={dropTarget}>
+    <div
+      className={cn(style.body__container, "mt-25")}
+      ref={dropTarget}
+      data-cy="burger-constructor"
+    >
       {Object.entries(bun).length !== 0 && (
         <section className={cn(style.outside__item, "mb-4")}>
           <ConstructorElement

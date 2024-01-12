@@ -15,7 +15,10 @@ const OrderSummary = () => {
   );
 
   return (
-    <div className={cn(style.order__details__container, "mt-10")}>
+    <div
+      className={cn(style.order__details__container, "mt-10")}
+      data-cy="order-summary"
+    >
       <h2
         className={cn(
           style.order__details__title,

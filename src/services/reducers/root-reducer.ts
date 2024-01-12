@@ -4,7 +4,7 @@ import { constructorIngrediensReducer } from "./constructor-ingrediens-reducer";
 import { orderDetailsReducer } from "./order-details-reducer";
 import { userReducer } from "./user-reducer";
 import { wsReducer } from "./ws-reducer";
-import { wsReducerAuth } from "./ws-auth-redicer";
+import { wsReducerAuth } from "./ws-auth-reducer";
 
 export const rootReducer = combineReducers({
   allIngredients: allIngredientsReducer,

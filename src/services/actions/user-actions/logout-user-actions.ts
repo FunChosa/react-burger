@@ -50,7 +50,7 @@ export const logoutUserAction = () => {
       }
     } catch (err) {
       dispatch(logoutUserError());
-      console.log("LOGOUT_USER_ERROR", err);
+      // console.log("LOGOUT_USER_ERROR", err);
     }
   };
 };

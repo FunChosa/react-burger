@@ -51,7 +51,7 @@ export const socketMiddleware = (
 
         socket.onclose = (event) => {
           dispatch({ type: onClose, payload: event });
-          console.log("socket closed with code: ", event.code);
+          // console.log("socket closed with code: ", event.code);
           if (!connected) {
             setTimeout(() => {
               dispatch({ type: wsInit });

@@ -45,6 +45,6 @@ export const forgotPasswordAction =
       }
     } catch (err) {
       dispatch(forgotPasswordError());
-      console.log("FORGOT_PASSWORD_ERROR", err);
+      // console.log("FORGOT_PASSWORD_ERROR", err);
     }
   };

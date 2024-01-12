@@ -12,7 +12,7 @@ export interface IUpdateUserInfoRequest {
 }
 export interface IUpdateUserInfoSuccess {
   readonly type: typeof UPDATE_USER_INFO_SUCCESS;
-  readonly user: {
+  readonly data: {
     name: string;
     email: string;
   };
@@ -34,7 +34,7 @@ export const updateUserInfoSuccess = (
   res: IUserUpdateInfo
 ): IUpdateUserInfoSuccess => ({
   type: UPDATE_USER_INFO_SUCCESS,
-  user: res.user,
+  data: res.user,
 });
 
 export const updateUserInfoError = (): IUpdateUserInfoError => ({
@@ -64,7 +64,7 @@ export const updateUserInfoAction = (
         }
       } else {
         dispatch(updateUserInfoError());
-        console.log("UPDATE_USER_INFO_ERROR", err);
+        // console.log("UPDATE_USER_INFO_ERROR", err);
       }
     }
   };

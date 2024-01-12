@@ -127,7 +127,6 @@ export const userReducer = (
         isUserAuthorized: true,
         loginFailed: false,
       };
-
     case LOGIN_USER_ERROR:
       return {
         ...state,
@@ -157,6 +156,7 @@ export const userReducer = (
         registerSuccess: false,
         registerFailed: true,
       };
+    // выход
     case LOGOUT_USER_REQUEST:
       return {
         ...state,
@@ -181,6 +181,7 @@ export const userReducer = (
         logoutSuccess: false,
         logoutFailed: true,
       };
+    // получение информации о пользователе
     case GET_USER_INFO_REQUEST:
       return {
         ...state,
@@ -192,8 +193,8 @@ export const userReducer = (
         ...state,
         user: {
           ...state.user,
-          name: action.res.user.name,
-          email: action.res.user.email,
+          name: action.data.user.name,
+          email: action.data.user.email,
         },
         getUserInfoRequest: false,
         getUserInfoSuccess: true,
@@ -205,6 +206,7 @@ export const userReducer = (
         getUserInfoRequest: false,
         getUserInfoFailed: true,
       };
+    // обновление информации о пользователе
     case UPDATE_USER_INFO_REQUEST:
       return {
         ...state,
@@ -214,8 +216,8 @@ export const userReducer = (
       return {
         ...state,
         user: {
-          name: action.user.name,
-          email: action.user.email,
+          name: action.data.name,
+          email: action.data.email,
         },
         updateUserInfoRequest: false,
         updateUserInfoFailed: false,
@@ -226,6 +228,7 @@ export const userReducer = (
         updateUserInfoRequest: false,
         updateUserInfoFailed: true,
       };
+    // восстановление пароля
     case FORGOT_PASSWORD_REQUEST:
       return {
         ...state,
@@ -247,6 +250,7 @@ export const userReducer = (
         forgotPasswordSuccess: false,
         forgotPasswordFailed: true,
       };
+    // сброс пароля
     case RESET_PASSWORD_REQUEST:
       return {
         ...state,

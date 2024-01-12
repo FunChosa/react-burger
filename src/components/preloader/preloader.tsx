@@ -14,6 +14,7 @@ export default function Preloader(props: TPreloader) {
         "mt-5",
         "text text_type_main-large text_color_inactive"
       )}
+      data-cy="preloader"
     >
       <p
         className={cn(
