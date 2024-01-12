@@ -1,7 +1,7 @@
 # 🍔 Stellar Burgers
 
 ## 🌐 Project Link:
-[Go to the application](project_link)
+[Go to the application](https://funchosa.github.io/react-burger/)
 
 ## 🛠 Used Technologies:
 - React
